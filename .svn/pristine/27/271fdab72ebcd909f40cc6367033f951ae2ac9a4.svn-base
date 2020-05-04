@@ -1,0 +1,172 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+	
+	<div id="page">
+	
+	<main>
+		<section class="hero_in contacts">
+			<div class="wrapper">
+				<div class="container">
+					<h1 class="fadeInUp"><span></span>Contact Us</h1>
+				</div>
+			</div>
+		</section>
+		<!--/hero_in-->
+
+		<div class="contact_info">
+			<div class="container">
+				<ul class="clearfix">
+					<li>
+						<i class="pe-7s-map-marker"></i>
+						<h4>주소</h4>
+						<span>PO Box 97845 Baker st. 567, Los Angeles<br>California - US.</span>
+					</li>
+					<li>
+						<i class="pe-7s-mail-open-file"></i>
+						<h4>이메일 주소</h4>
+						<span>support@Panagea.com - info@Panagea.com<br><small>Monday to Friday 9am - 7pm</small></span>
+
+					</li>
+					<li>
+						<i class="pe-7s-phone"></i>
+						<h4>문의전화</h4>
+						<span>+ 61 (2) 8093 3402 + 61 (2) 8093 3402<br><small>Monday to Friday 9am - 7pm</small></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--/contact_info-->
+
+		<div class="bg_color_1">
+			<div class="container margin_80_55">
+				<div class="row justify-content-between">
+					<div class="col-lg-5">
+						<div class="map_contact">
+					</div>
+						<!-- /map -->
+					</div>
+					<div class="col-lg-6">
+						<h4>메세지 보내기</h4>
+						<p>문의사항이 있으신 고객께서는 메세지를 남겨주세요. 신속히 답변 드리겠습니다.</p>
+						<div id="message-contact"></div>
+						<form name="contactsForm" method="post" id="contactsForm" autocomplete="off">
+							<input class="form-control" type="hidden" id="setfrom" name="setfrom">
+							<input class="form-control" type="hidden" id="tomail" name="tomail">
+							<div class="row">
+								<div class="col-md">
+									<div class="form-group">
+										<label>문의 제목</label>
+										<!-- <input class="form-control" type="text" id="title" name="title"> -->
+										<textarea class="form-control" id="title" name="title" style="height:43px;"></textarea>
+									</div>
+								</div>
+							</div>
+							<!-- /row -->
+							<!-- 
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>이메일</label>
+										<input class="form-control" type="email" id="senderEmail" name="senderEmail">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>휴대전화</label>
+										<input class="form-control" type="text" id="senderPhone" name="senderPhone">
+									</div>
+								</div>
+							</div>
+							 -->
+							<!-- /row -->
+							
+							<div class="form-group">
+								<label>메세지</label>
+								<textarea class="form-control" id="content" name="content" style="height:184px;"></textarea>
+							</div>
+							
+							<button type="button" id="sendContacts" class="btn btn-primary" data-toggle="modal" data-target="#sendContacts" style="width:150px; margin-top:30px;">제출 하기</button>
+						</form>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /bg_color_1 -->
+	</main>
+	<!--/main-->
+	
+	</div>
+	<!-- page -->
+	
+	<div style=" position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10041005;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    line-height: 60;
+    text-align: center;
+    display: none;" id="loading">
+    <div>
+		<img src="${pageContext.request.contextPath }/img/admin-loading.gif">
+	</div>
+	</div>
+	
+	<div id="toTop"></div><!-- Back to top button -->
+	
+	<jsp:include page="login-popup.jsp"></jsp:include>
+	
+	<!-- COMMON SCRIPTS -->
+    <script src="${pageContext.request.contextPath }/js/common_scripts.js"></script>
+    <script src="${pageContext.request.contextPath }/js/main.js"></script>
+	<script src="${pageContext.request.contextPath }/assets/validate.js"></script>
+	
+	<!-- SPECIFIC SCRIPTS -->
+	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyALAJJ1tqK93WbNKjWpe6bVmbCmSJfjmK8"></script>
+	<script src="${pageContext.request.contextPath }/js/mapmarker.jquery.js"></script>
+	<script src="${pageContext.request.contextPath }/js/mapmarker_func.jquery.js"></script>
+	
+	<script src="${pageContext.request.contextPath}/js/admin/custom.js"></script>
+
+<script>
+$("#sendContacts").click(function() {
+	title = $("#title").val();
+	content = $("#content").val();
+	
+	
+	if (title == "") {
+		alert("제목을 입력해 주세요");
+		return;
+	}
+	
+	if (content == "") {
+		alert("내용을 입력해 주세요.");
+		return;
+	}
+	
+	
+	/*
+	showConfirm('알림 메시지', '저장하시겠습니까?', ()=>{
+		$('#loading').show();
+		$(contactsForm).submit();
+	});
+	*/
+});
+	
+</script>
+
+<!-- 
+<c:if test="${not empty messageTitle and not empty messageContent }">
+<script type="text/javascript">
+	console.log('hello world');
+	showAlert("${messageTitle }", "${messageContent }");
+</script>
+</c:if>
+
+ -->
+	

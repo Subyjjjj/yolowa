@@ -1,0 +1,73 @@
+package site.yolowa.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import site.yolowa.dto.Board;
+import site.yolowa.mapper.AdminMapper;
+import site.yolowa.mapper.MainHelpBoardMapper;
+
+@Repository
+public class BoardDAOImpl implements BoardDAO{
+	@Autowired
+	public SqlSession sqlSession;
+
+	@Override
+	public List<Board> selectAllBoard(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAllBoard(map);
+	}
+
+	@Override
+	public int insertAdminBoardNotice(Board board) {
+		return sqlSession.getMapper(AdminMapper.class).insertAdminBoardNotice(board);
+	}
+
+	@Override
+	public int updateAdminBoardNotice(Board board) {
+		return sqlSession.getMapper(AdminMapper.class).updateAdminBoardNotice(board);
+	}
+	
+	@Override
+	public List<Board> selectAdminBoardNoticeCategoryTC(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminBoardNoticeCategoryTC(map);
+	}
+
+	@Override
+	public List<Board> selectAdminEtcBoard(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminEtcBoard(map);
+	}
+
+	@Override
+	public List<Board> selectAdminEtcHelp(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminEtcHelp(map);
+	}
+
+	@Override
+	public int insertAdminBoardHelp(Board board) {
+		return sqlSession.getMapper(AdminMapper.class).insertAdminBoardHelp(board);
+	}
+
+	@Override
+	public int updateAdminBoardHelp(Board board) {
+		return sqlSession.getMapper(AdminMapper.class).updateAdminBoardHelp(board);
+	}
+
+	@Override
+	public List<Board> selectAdminBoardHelpCategoryTC(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminBoardHelpCategoryTC(map);
+	}
+
+	@Override
+	public List<Board> selectHelpBoardList() {
+		return sqlSession.getMapper(MainHelpBoardMapper.class).selectHelpBoardList();
+	}
+
+
+	
+	
+	
+}

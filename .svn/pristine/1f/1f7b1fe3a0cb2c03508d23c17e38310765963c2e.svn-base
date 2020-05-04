@@ -1,0 +1,12 @@
+# jdbc configuration
+#driver = oracle.jdbc.driver.OracleDriver
+driver = net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+url = jdbc:log4jdbc:oracle:thin:@182.237.126.17:1521:xe
+username = yoadmin
+password = yoadmin
+
+
+#mail
+google-id = yolowa2020@gmail.com
+google-password = yolowa123!
+

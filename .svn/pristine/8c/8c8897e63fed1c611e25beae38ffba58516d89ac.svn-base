@@ -1,0 +1,12 @@
+package site.yolowa.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import site.yolowa.dto.Board;
+
+public interface MainCommentMapper {
+	List<Board> selectCommentList(Map<String, Object>map);
+	List<Board> selectSearchCommentList(Map<String, Object>map);
+	List<Board> selectCategoryCommentList(Map<String, Object>map);
+}

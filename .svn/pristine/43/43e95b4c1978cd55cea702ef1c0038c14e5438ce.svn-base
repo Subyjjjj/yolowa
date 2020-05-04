@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.yolowa.mapper.MainCommentMapper">
+
+	<!-- 저장된 게시글의 갯수를 출력 -->
+	<select id="selectCommentCount" resultType="int">
+		select count(*) from borad
+	</select>
+	
+	<!-- 게시판 전체 출력(페이징 처리) -->
+	<select id="selectCommentList" resultType="Board">
+	select * from(select rownum rn, v.* from (select b.*, m.member_image, m.member_name, (select count(*) from review r where r.review_no = b.board_no) ctn 
+	from board b left join member m on b.board_writer_no = m.member_no where b.board_type =1 order by b.board_date desc) v) z 
+	where z.rn between ((page - 1) * 4 + 1) and (page * 4);
+	</select>
+	
+	<!--
+	게시물 선택하여 게시물 상세 내용 출력(board&review조인 ajax처리)
+	<select id="selectDetailComment" resultType="Board">
+		select b.*, m.member_image, m.member_name from board b left join member m on b.board_writer_no = m.member_no where b.board_no=#{inputValue};  // select r.*, m.member_image, m.member_name from review r left join member m on r.review_member_no=m.member_no; 
+	</select>
+	 -->
+	
+	<!-- 검색을 통해 출력된 게시물 출력 -->
+	<select id="selectSearchCommentList" resultType="Board">
+	select * from (select rownum rn, v.* from (select b.*, m.member_image, m.member_name,(select count(*) from review r where r.review_no = b.board_no) ctn 
+	from board b left join member m on b.board_writer_no = m.member_no where b.board_content like '#{keyword}' or b.board_title like '#{keyword}' or m.member_name like '#{keyword}' order by b.board_date desc) v) z 
+	where z.rn between ((page - 1) * 4 + 1) and (page * 4);
+	</select>
+	
+	<!-- 카테고리별 출력 뉴스/이벤트/컬럼 -->
+	<select id="selectCategoryCommentList" resultType="Board">
+		select * from (select rownum rn, v.* from (select b.*, m.member_image, m.member_name, (select count(*) from review r where r.review_no = b.board_no) ctn 
+		from board b left join member m on b.board_writer_no = m.member_no where b.board_type = '{inputValue}' and b.board_category=1 order by b.board_date desc) v) z 
+		where z.rn between ((page - 1) * 4 + 1) and (page * 4);
+	</select>
+	
+	<!-- 회원이 클릭한 최신 게시물 3개씩 출력(가장 최근 게시물이 맨 위)
+	<select id="">
+		select b.board_no, b.board_image from board b where b.board_type=1 = #{inputValue}(임시)
+	</select>
+	-->
+</mapper>

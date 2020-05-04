@@ -1,0 +1,7 @@
+package site.yolowa.mapper;
+
+import site.yolowa.dto.Reservation;
+
+public interface MainReservationMapper {
+	int insertReservation(Reservation reservation);
+}

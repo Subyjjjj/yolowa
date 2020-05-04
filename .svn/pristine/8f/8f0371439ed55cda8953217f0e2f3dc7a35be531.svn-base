@@ -1,0 +1,49 @@
+package site.yolowa.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import site.yolowa.dto.AdminCard;
+import site.yolowa.dto.AdminChart;
+import site.yolowa.dto.AdminClaimReview;
+import site.yolowa.dto.Claim;
+import site.yolowa.dto.Range;
+import site.yolowa.mapper.AdminMapper;
+
+@Repository
+public class ClaimDAO{
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public List<Claim> selectAdminClaimUserTable(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminClaimUserTable(map);
+	}
+	
+	public int updateClaimState(Claim claim) {
+		return sqlSession.getMapper(AdminMapper.class).updateClaimState(claim);
+	}
+	
+	public List<AdminClaimReview> selectAdminClaimReviewTable(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminClaimReviewTable(map);
+	}
+	
+	public List<AdminChart> selectAdminClaimChart(Range range) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminClaimChart(range);
+	}
+	
+	public List<AdminCard> selectAdminToGuestClaimCard(){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminToGuestClaimCard();
+	}
+	
+	public List<AdminCard> selectAdminToHostClaimCard(){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminToHostClaimCard();
+	}
+	
+	public List<AdminCard> selectAdminReivewClaimCard(){
+			return sqlSession.getMapper(AdminMapper.class).selectAdminReivewClaimCard();
+	}
+}

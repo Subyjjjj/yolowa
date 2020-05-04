@@ -1,0 +1,548 @@
+package site.yolowa.app;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import site.yolowa.dao.ClaimDAO;
+import site.yolowa.dao.HostingDAO;
+import site.yolowa.dao.MemberDAO;
+import site.yolowa.dao.MessageDAO;
+import site.yolowa.dao.ReservationDAO;
+import site.yolowa.dao.ReviewDAO;
+import site.yolowa.dto.AdminCard;
+import site.yolowa.dto.AdminChart;
+import site.yolowa.dto.AdminDashBoardTable;
+import site.yolowa.dto.AdminHostingMemberDetail;
+import site.yolowa.dto.AdminHostingReservationDetail;
+import site.yolowa.dto.AdminHostingTable;
+import site.yolowa.dto.AdminMemberDetail;
+import site.yolowa.dto.AdminMemberTable;
+import site.yolowa.dto.Claim;
+import site.yolowa.dto.Member;
+import site.yolowa.dto.Message;
+import site.yolowa.dto.Range;
+
+
+
+public class TsTestApp {
+	public static Map<String, Object> map = null;
+	public static MemberDAO memberDao = new MemberDAO();
+	public static HostingDAO hostingDao = new HostingDAO();
+	public static MessageDAO messageDao = new MessageDAO();
+	public static ClaimDAO claimDao = new ClaimDAO();
+	public static ReviewDAO reviewDao = new ReviewDAO();
+	public static ReservationDAO reservationDao = new ReservationDAO();
+	
+	
+	public static void main(String[] args){
+		
+		//
+		selectAdminMemberTable();
+		//
+		//selectAdminHostingTable();
+		//
+		//insertAdminMessage();
+		//updateAdminMessageState();
+		//selectAdminMessageTable();
+		//
+		//selectAdminClaimUserTable();
+		//selectNoMember();
+		
+		//updateMemberForbiddenDate();
+		//updateClaimState();
+		
+		//selectAdminClaimReplyTable();
+		//updateReviewState();
+		
+		//selectAdminSalesChart();
+		//selectAdminHostingChart();
+		//selectAdminMemberJoinChart();
+		//selectAdminClaimChart();
+		/*
+		selectAdminJoinMemberCard();
+		selectAdminStateMemberCard();
+		selectAdminApplyHostingCard();
+		selectAdminStateHostingCard();
+		selectAdminToGuestClaimCard();
+		selectAdminToHostClaimCard();
+		selectAdminReivewClaimCard();
+		*/
+		
+		//selectAdminDashBoardTable();
+		
+		//updateMemberMemo();
+		//selectAdminMemberDetail();
+		//selectAdminMemberHostingDetail();
+		
+		//selectAdminHostingDetail();
+		
+		//test 완료!!
+	}
+	
+	public static void selectAllMember() {
+		System.out.println("test: all member");
+		List<Member> allMembers = memberDao.selectAllMember();
+		for(Member m : allMembers) {
+			System.out.println(m);
+		}
+	}
+	
+	//
+	public static void selectAdminMemberTable() {
+		System.out.println("test: adminMemberTable");
+		map = new HashMap<String, Object>();
+		
+		
+		List<Range> birthdays = new ArrayList<Range>();
+		List<Range> lastLogins = new ArrayList<Range>();
+		List<Range> joinDates = new ArrayList<Range>();
+		
+		List<Integer> nos = new ArrayList<Integer>();
+		List<String> names = new ArrayList<String>();
+		List<String> emails = new ArrayList<String>();
+		List<String> phones = new ArrayList<String>();
+		List<String> addresses = new ArrayList<String>();
+		
+		List<Integer> hostStates = new ArrayList<Integer>();
+		List<Integer> states = new ArrayList<Integer>();
+		Range totalPrice = null;
+		
+		int count = 300;
+		
+		//setting
+		
+		//
+		map.put("birthdays", birthdays);
+		map.put("lastLogins", lastLogins);
+		map.put("joinDates", joinDates);
+		
+		map.put("nos", nos);
+		map.put("names", names);
+		map.put("emails", emails);
+		map.put("phones", phones);
+		map.put("addresses", addresses);
+		
+		map.put("hostStates", hostStates);
+		map.put("states", states);
+		map.put("totalPrice", totalPrice);
+		
+		map.put("count", count);
+		/**/
+		List<AdminMemberTable> adminMemberTables = memberDao.selectAdminMemberTable(map);
+		
+		for(AdminMemberTable amt : adminMemberTables) {
+			System.out.println(amt);
+		}
+	}
+	
+	
+	public static void selectAdminHostingTable() {
+		System.out.println("test: adminHostingTable");
+		map = new HashMap<String, Object>();
+		
+		List<Range> hostingDates = new ArrayList<Range>();
+		
+		List<String> nos = new ArrayList<String>();
+		List<String> names = new ArrayList<String>();
+		List<String> memberNos = new ArrayList<String>();
+		
+		List<Integer> states = new ArrayList<Integer>();
+		
+		Range usedRange = new Range();
+		Range reservationRange = new Range();
+		
+		int count = 300;
+		
+		//setting
+		hostingDates.add(new Range("2020-03-01", "2020-04-01"));
+		//
+		map.put("hostingDates", hostingDates);
+		
+		map.put("nos", nos);
+		map.put("names", names);
+		map.put("memberNos", memberNos);
+		
+		map.put("states", states);
+		
+		map.put("usedRange", usedRange);
+		map.put("reservationRange", reservationRange);
+		
+		map.put("count", count);
+		/**/
+		List<AdminHostingTable> adminHostingTables = hostingDao.selectAdminHostingTable(map);
+		
+		for(AdminHostingTable aht : adminHostingTables) {
+			System.out.println(aht);
+		}
+	}
+	
+	public static void selectAdminMessageTable() {
+		System.out.println("test: notice(message)HostingTable");
+		map = new HashMap<String, Object>();
+		
+		List<Range> messageDates = new ArrayList<Range>();
+		
+		List<String> contents = new ArrayList<String>();
+		List<String> senderNos = new ArrayList<String>();
+		List<String> receiverNos = new ArrayList<String>();
+		
+		List<Integer> states = new ArrayList<Integer>();
+		int select = 0;
+		
+		Range usedRange = new Range();
+		Range reservationRange = new Range();
+		
+		int count = 300;
+		
+		//setting
+		states.add(0);
+		states.add(3);
+		//
+		
+		
+		map.put("messageDates", messageDates);
+		
+		map.put("contents", contents);
+		map.put("senderNos", senderNos);
+		map.put("receiverNos", receiverNos);
+		
+		map.put("states", states);
+		
+		map.put("select", select);
+		
+		map.put("usedRange", usedRange);
+		map.put("reservationRange", reservationRange);
+		
+		map.put("count", count);
+		/**/
+		List<Message> adminMessageTables = messageDao.selectAdminMessageTable(map);
+		
+		for(Message m : adminMessageTables) {
+			System.out.println(m);
+		}
+	}
+	
+	public static void insertAdminMessage() {
+		int rows = 0;
+		
+		//setting
+		Message message = new Message();
+		message.setMessageContent("입력 메세지1");
+		message.setMessageReceiverNo(5);
+		message.setMessageSenderNo(3);
+		//
+		
+		rows = messageDao.insertAdminMessage(message);
+		
+		System.out.println("[insertAdminMessage]" + rows + "삽입 완료 되었습니다.");
+	}
+	
+	public static void updateAdminMessageState() {
+		int rows = 0;
+		map = new HashMap<String, Object>();
+		int state = 1;
+		List<Integer> messageNos = new ArrayList<Integer>();
+		//setting
+		state = 0;
+		messageNos.add(3);
+		//
+		map.put("state", state);
+		map.put("messageNos", messageNos);
+		
+		rows = messageDao.updateMessageState(map);
+		
+		System.out.println("[updateAdminMessageState]" + rows + "행이 변경완료 되었습니다.");
+	}
+	
+	public static void selectAdminClaimUserTable() {
+		System.out.println("test: claim(user)HostingTable");
+		map = new HashMap<String, Object>();
+		
+		List<Range> claimDates = new ArrayList<Range>();
+		
+		List<String> reasons = new ArrayList<String>();
+		List<Integer> applicantNos = new ArrayList<Integer>();
+		List<Integer> suspectNos = new ArrayList<Integer>();
+		List<Integer> suspectHostingNos = new ArrayList<Integer>();
+		
+		List<Integer> types = new ArrayList<Integer>();
+		List<Integer> states = new ArrayList<Integer>();
+		
+		int count = 300;
+		
+		//setting
+			//applicantNos.add(5);
+			//suspectNos.add(3);
+		//
+		
+		map.put("claimDates", claimDates);
+		
+		map.put("reasons", reasons);
+		map.put("applicantNos", applicantNos);
+		map.put("suspectNos", suspectNos);
+		map.put("suspectHostingNos", suspectHostingNos);
+		
+		map.put("types", types);
+		map.put("states", states);
+		
+		map.put("count", count);
+		/**/
+		
+		List<Claim> adminClaimUserTables = claimDao.selectAdminClaimUserTable(map);
+		
+		for(Claim cut : adminClaimUserTables) {
+			System.out.println(cut);
+		}
+	}
+	
+	public static void selectNoMember() {
+		System.out.println("====================" + memberDao.selectNoMember(1) + "=========================");
+	}
+	
+	public static void updateMemberForbiddenDate() {
+		int rows = 0;
+		Member member = new Member();
+		member.setMemberNo(1);
+		
+		rows = memberDao.updateMemberForbiddenDate(member);
+		
+		System.out.println("[updateMemberForbiddenDate]"+ rows + "개의 데이터가 수정되었습니다.");
+	}
+	
+	public static void updateClaimState() {
+		int rows = 0;
+		map = new HashMap<String, Object>();
+		
+		int state = 1;
+		List<Integer> claimNos = new ArrayList<Integer>();
+		
+		//set
+			state = 0;
+			claimNos.add(1);
+		//
+		map.put("state", state);
+		map.put("claimNos", claimNos);
+		
+		rows = claimDao.updateClaimState(map);
+		
+		System.out.println("[updateClaimState]"+ rows + "개의 데이터가 수정되었습니다.");
+	}
+	
+	public static void selectAdminClaimReplyTable() {
+		System.out.println("test: claim(reply)HostingTable");
+		map = new HashMap<String, Object>();
+		
+		List<Range> claimDates = new ArrayList<Range>();
+		
+		List<String> reasons = new ArrayList<String>();
+		List<Integer> applicantNos = new ArrayList<Integer>();
+		List<Integer> suspectReviewNos = new ArrayList<Integer>();
+		
+		List<Integer> states = new ArrayList<Integer>();
+		
+		int count = 300;
+		
+		//setting
+			
+		//
+		map.put("claimDates", claimDates);
+		
+		map.put("reasons", reasons);
+		map.put("applicantNos", applicantNos);
+		map.put("suspectReviewNos", suspectReviewNos);
+		
+		map.put("states", states);
+		
+		map.put("count", count);
+		/**/
+		
+		List<Claim> adminClaiReplyTables = claimDao.selectAdminClaimReplyTable(map);
+		
+		for(Claim cut : adminClaiReplyTables) {
+			System.out.println(cut);
+		}
+	}
+	
+	public static void updateReviewState() {
+		int rows = 0;
+		map = new HashMap<String, Object>();
+		
+		int state = 1;
+		List<Integer> reviewNos = new ArrayList<Integer>();
+		
+		//setting
+		reviewNos.add(1);
+		reviewNos.add(2);
+		//
+		
+		map.put("state", state);
+		map.put("reviewNos", reviewNos);
+		
+		rows = reviewDao.updateReviewState(map);
+		
+		System.out.println("[updateReviewState]" + rows + "행이 변경완료 되었습니다.");
+	}
+	
+	public static void selectAdminSalesChart() {
+		//setting
+		Range range = new Range("2019-03-01", "2020-05-01");
+		
+		List<AdminChart> acList = reservationDao.selectAdminSalesChart(range);
+		
+		for(AdminChart ac : acList ) {
+			System.out.println(ac);
+		}
+	}
+	
+	public static void selectAdminHostingChart() {
+		//setting
+		Range range = new Range("2019-03-01", "2020-05-01");
+		
+		List<AdminChart> acList = hostingDao.selectAdminHostingChart(range);
+		
+		for(AdminChart ac : acList ) {
+			System.out.println(ac);
+		}
+	}
+	
+	public static void selectAdminMemberJoinChart() {
+		//setting
+		Range range = new Range("2019-03-01", "2020-05-01");
+		
+		List<AdminChart> acList = memberDao.selectAdminMemberJoinChart(range);
+		
+		for(AdminChart ac : acList ) {
+			System.out.println(ac);
+		}
+	}
+	
+	public static void selectAdminClaimChart() {
+		//setting
+		Range range = new Range("2019-03-01", "2020-05-01");
+		
+		List<AdminChart> acList = claimDao.selectAdminClaimChart(range);
+		
+		for(AdminChart ac : acList ) {
+			System.out.println(ac);
+		}
+	}
+	
+	public static void selectAdminJoinMemberCard() {
+		List<AdminCard> selectAdminJoinMemberCard = memberDao.selectAdminJoinMemberCard();
+		
+		System.out.println("====================selectAdminJoinMemberCard========================");
+		for(AdminCard card : selectAdminJoinMemberCard) {
+			System.out.println(card);
+		}
+	}
+	
+	public static void selectAdminStateMemberCard() {
+		List<AdminCard> selectAdminJoinMemberCard = memberDao.selectAdminStateMemberCard();
+		
+		System.out.println("====================selectAdminStateMemberCard========================");
+		for(AdminCard card : selectAdminJoinMemberCard) {
+			System.out.println(card);
+		}
+	}
+	
+	public static void selectAdminApplyHostingCard() {
+		List<AdminCard> selectAdminJoinMemberCard = hostingDao.selectAdminApplyHostingCard();
+		
+		System.out.println("====================selectAdminApplyHostingCard========================");
+		for(AdminCard card : selectAdminJoinMemberCard) {
+			System.out.println(card);
+		}
+	}
+	
+	public static void selectAdminStateHostingCard() {
+		List<AdminCard> selectAdminJoinMemberCard = hostingDao.selectAdminStateHostingCard();
+		
+		System.out.println("====================selectAdminStateHostingCard========================");
+		for(AdminCard card : selectAdminJoinMemberCard) {
+			System.out.println(card);
+		}
+	}
+	
+	public static void selectAdminToGuestClaimCard() {
+		List<AdminCard> selectAdminJoinMemberCard = claimDao.selectAdminToGuestClaimCard();
+		
+		System.out.println("====================selectAdminToGuestClaimCard========================");
+		for(AdminCard card : selectAdminJoinMemberCard) {
+			System.out.println(card);
+		}
+	}
+	
+	public static void selectAdminToHostClaimCard() {
+		List<AdminCard> selectAdminJoinMemberCard = claimDao.selectAdminToHostClaimCard();
+		
+		System.out.println("====================selectAdminToHostClaimCard========================");
+		for(AdminCard card : selectAdminJoinMemberCard) {
+			System.out.println(card);
+		}
+	}
+	
+	public static void selectAdminReivewClaimCard() {
+		List<AdminCard> selectAdminJoinMemberCard = claimDao.selectAdminReivewClaimCard();
+		
+		System.out.println("====================selectAdminReivewClaimCard========================");
+		for(AdminCard card : selectAdminJoinMemberCard) {
+			System.out.println(card);
+		}
+	}
+	
+	public static void selectAdminDashBoardTable() {
+		Range range = new Range("19/05", "20/05");
+		
+		List<AdminDashBoardTable> selectAdminDashBoardTable = reservationDao.selectAdminDashBoardTable(range);
+		
+		System.out.println("====================selectAdminReivewClaimCard========================");
+		for(AdminDashBoardTable card : selectAdminDashBoardTable) {
+			System.out.println(card);
+		}
+	}
+	
+	
+	public static void updateMemberMemo() {
+		//setting
+		Member member = new Member();
+		member.setMemberNo(10);
+		member.setMemberMemo("안녕하세요.");
+		
+		int rows = memberDao.updateMemberMemo(member);
+		System.out.println("[updateMemberMemo]" + rows + "개의 행을 변경하였습니다.");
+		
+	}
+	
+	public static void selectAdminMemberDetail() {
+		//setting
+		int memberNo = 1;
+		
+		AdminMemberDetail amd = memberDao.selectAdminMemberDetail(memberNo);
+		System.out.println(amd);
+	}
+	
+	
+	public static void selectAdminMemberHostingDetail() {
+		//setting
+		int memberNo = 1;
+		
+		AdminHostingMemberDetail amhd = memberDao.selectAdminMemberHostingDetail(memberNo);
+		System.out.println(amhd);
+		
+	}
+	
+	public static void selectAdminHostingDetail() {
+		//setting
+		int hostingNo = 1;
+		
+		AdminHostingReservationDetail ahrd = hostingDao.selectAdminHostingDetail(hostingNo);
+		System.out.println(ahrd);
+		
+	}
+	
+	
+}

@@ -1,0 +1,30 @@
+package site.yolowa.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class MainReservationController {
+	//숙소 예약 1단계
+	@RequestMapping(value = "/order1", method = RequestMethod.GET)
+	public String order1() {
+		return "main/order-1";
+	}
+	
+	//숙소 예약 2단계
+	@RequestMapping(value = "/order2", method = RequestMethod.GET)
+	public String order2() {
+		return "main/order2";
+	}
+	
+	@RequestMapping(value = "/invoice", method = RequestMethod.GET)
+	public String invoice() {
+		return "main/invoice";
+	}
+	
+	@RequestMapping(value = "/mypage/bookmarks", method = RequestMethod.GET)
+	public String bookmarks() {
+		return "mypage/bookmarks";
+	}
+}

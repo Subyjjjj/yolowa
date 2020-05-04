@@ -1,0 +1,40 @@
+package site.yolowa.controller;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class MainHostingMypageController {
+	//숙소추가
+	@RequestMapping(value = "/mypage/addlisting", method = RequestMethod.GET)
+	public String addListing(HttpSession session) {
+		//로그인 인증 처리
+		if (session.getAttribute("loginMember") == null) {
+			return "main/404";
+		}
+		
+		
+		return "mypage/add-listing";
+	}
+	
+	//예약관리
+	@RequestMapping(value = "/mypage/bookings", method = RequestMethod.GET)
+	public String bookings() {
+		return "mypage/bookings";
+	}
+	
+	//호스팅 대쉬보드
+	@RequestMapping(value = "/mypage/dashboard", method = RequestMethod.GET)
+	public String dashBoard() {
+		return "mypage/dashboard";
+	}
+	
+	//숙소관리
+	@RequestMapping(value = "/mypage/listings", method = RequestMethod.GET)
+	public String listings() {
+		return "mypage/listings";
+	}
+}

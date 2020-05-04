@@ -1,0 +1,28 @@
+package site.yolowa.service;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+
+import site.yolowa.dao.BoardDAO;
+import site.yolowa.dto.Board;
+import site.yolowa.dto.Sns;
+
+@Service
+public interface AdminEtcService {
+	
+	
+	List<Board> getAllBoard(Map<String, Object> map);
+	void addAdminBoardNotice(Board board);
+	void modifyAdminBoardNotice(Board board);
+	List<Board> getAdminBoardNoticeCategoryTC(Map<String, Object> map);
+	List<Board> getAdminEtcBoard(Map<String, Object> map);
+	List<Board> getAdminEtcHelp(Map<String, Object> map);
+	
+	Sns getAdminSns(HttpServletRequest request) throws IOException;
+	boolean modifySns(Sns sns, HttpServletRequest request) throws IOException;
+}

@@ -1,0 +1,30 @@
+package site.yolowa.controller;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import site.yolowa.dto.Member;
+
+@Controller
+public class MainMypageReviewController {
+	@RequestMapping(value = "/mypage/reviews", method = RequestMethod.GET)
+	public String ReviewProfile(HttpSession session,Model model) {
+		Member member=(Member)session.getAttribute("loginMember");
+		
+		if(member==null) {
+			return "redirect:/";
+		}
+		
+		model.addAttribute("name",member.getMemberName());
+		model.addAttribute("birthday",member.getMemberBirthday());
+		model.addAttribute("email",member.getMemberEmail());
+		model.addAttribute("message", member.getMemberProfile());
+		model.addAttribute("joinDate", member.getMemberJoinDate());
+	
+		return "mypage/reviews";
+	}
+}

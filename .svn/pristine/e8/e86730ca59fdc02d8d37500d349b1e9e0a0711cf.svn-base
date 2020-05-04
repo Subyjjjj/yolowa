@@ -1,0 +1,36 @@
+package site.yolowa.controller;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import site.yolowa.service.AdminComponentService;
+
+//관리자페이지 컴포넌트 관련 Rest 서비스를 제공하는 컨트롤러
+@RestController
+public class AdminComponentController {
+	@Autowired
+	private AdminComponentService adminComponentService;
+	
+	@RequestMapping(value = "/rest/admin/component/member", method = RequestMethod.POST)
+	public Map<String, Object> componentMember(@RequestBody int memberNo){
+		adminComponentService.getAdminMemberComponent(memberNo);
+		return null;
+	}
+	
+	@RequestMapping(value = "/rest/admin/component/hosting/member", method = RequestMethod.POST)
+	public Map<String, Object> componentHostingMemberComponent(@RequestBody int memberNo){
+		adminComponentService.getAdminHostingMemberComponent(memberNo);
+		return null;
+	}
+	
+	@RequestMapping(value = "/rest/admin/component/hosting", method = RequestMethod.POST)
+	public Map<String, Object> componentHostingComponent(@RequestBody int hostingNo){
+		adminComponentService.getAdminHostingComponent(hostingNo);
+		return null;
+	}
+}

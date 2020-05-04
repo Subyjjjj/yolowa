@@ -1,0 +1,111 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">호스팅</a>
+        </li>
+        <li class="breadcrumb-item active">예약 현황</li>
+      </ol>
+		<div class="box_general">
+			<div class="header_box">
+				<h2 class="d-inline-block">예약 목록</h2>
+				<div class="filter">
+					<select name="orderby" class="selectbox">
+						<option value="Any status">모든 상태</option>
+						<option value="complete">이용완료</option>
+						<option value="Approved">승인</option>
+						<option value="Pending">대기</option>
+						<option value="Cancelled">취소</option>
+					</select>
+				</div>
+			</div>
+			<div class="list_general">
+				<ul>
+					<li>
+						<figure><img src="${pageContext.request.contextPath }/img/item_1.jpg" alt=""></figure>
+						<h4>숙소 이름 <i class="pending">대기</i> <i class="cancel">취소</i> <i class="approved">승인</i> <i class="approved">이용완료</i> </h4>
+						<ul class="booking_list">
+							<li><strong>체크인 시간</strong> 2017년 11월 20일</li>
+							<li><strong>체크아웃 시간</strong> 2018년 2월 11일</li>
+							<li><strong>숙박 인원</strong> 2명</li>
+							<li><strong>고객 이름</strong> Mark Twain</li>
+							<li><strong>지불금액</strong> ￦ 30,000</li>
+						</ul>
+						<p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-envelope"></i> 메세지 보내기</a> &nbsp;
+						<a href="#modal-reply" data-effect="mfp-zoom-in" class="btn_1 gray"><i class="fa fa-fw fa-reply"></i> 게스트 후기작성</a></p>
+						<ul class="buttons">
+							<li><a href="#0" class="btn_1 gray approve"><i class="fa fa-fw fa-check-circle-o"></i> 수락</a></li>
+							<li><a href="#0" class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> 취소</a></li>
+							<li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> 예약 취소</a></li>
+						</ul>
+					</li>
+					<li>
+						<figure><img src="${pageContext.request.contextPath }/img/item_2.jpg" alt=""></figure>
+						<h4>Da Alfredo <i class="cancel">Cancelled</i></h4>
+						<ul class="booking_list">
+							<li><strong>Booking date</strong> 11 November 2017</li>
+							<li><strong>Booking details</strong> 2 People</li>
+							<li><strong>Client</strong> Mark Twain</li>
+						</ul>
+						<p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-envelope"></i> Send Message</a></p>
+						<ul class="buttons">
+							<li><a href="#0" class="btn_1 gray approve"><i class="fa fa-fw fa-check-circle-o"></i> Approve</a></li>
+							<li><a href="#0" class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> Cancel</a></li>
+						</ul>
+					</li>
+					<li>
+						<figure><img src="${pageContext.request.contextPath }/img/item_3.jpg" alt=""></figure>
+						<h4>Pompidue Museum <i class="approved">Approved</i></h4>
+						<ul class="booking_list">
+							<li><strong>Booking date</strong> 11 November 2017</li>
+							<li><strong>Booking details</strong> 2 People</li>
+							<li><strong>Client</strong> Mark Twain</li>
+						</ul>
+						<p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-envelope"></i> Send Message</a></p>
+						<ul class="buttons">
+							<li><a href="#0" class="btn_1 gray approve"><i class="fa fa-fw fa-check-circle-o"></i> Approve</a></li>
+							<li><a href="#0" class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> Cancel</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /box_general-->
+		<nav aria-label="...">
+			<ul class="pagination pagination-sm add_bottom_30">
+				<li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">이전</a>
+				</li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item">
+					<a class="page-link" href="#">다음</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- /pagination-->
+	  </div>
+	  <!-- /container-fluid-->
+   	</div>
+    <!-- /container-wrapper-->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="${pageContext.request.contextPath }/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath }/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="${pageContext.request.contextPath }/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="${pageContext.request.contextPath }/vendor/chart.js/Chart.min.js"></script>
+    <script src="${pageContext.request.contextPath }/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="${pageContext.request.contextPath }/vendor/datatables/dataTables.bootstrap4.js"></script>
+	<script src="${pageContext.request.contextPath }/vendor/jquery.selectbox-0.2.js"></script>
+	<script src="${pageContext.request.contextPath }/vendor/retina-replace.min.js"></script>
+	<script src="${pageContext.request.contextPath }/vendor/jquery.magnific-popup.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="${pageContext.request.contextPath }/js/admin.js"></script>
+	

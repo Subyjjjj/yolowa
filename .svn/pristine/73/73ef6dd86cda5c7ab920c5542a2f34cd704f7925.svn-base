@@ -1,0 +1,21 @@
+package site.yolowa.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import site.yolowa.dto.Board;
+
+public interface BoardDAO{
+	List<Board> selectAllBoard(Map<String, Object> map);
+	int insertAdminBoardNotice(Board board);
+	int updateAdminBoardNotice(Board board);
+	List<Board> selectAdminBoardNoticeCategoryTC(Map<String, Object> map);
+	List<Board> selectAdminEtcBoard(Map<String, Object> map);
+	
+	int insertAdminBoardHelp(Board board);
+	int updateAdminBoardHelp(Board board);
+	List<Board> selectAdminBoardHelpCategoryTC(Map<String, Object> map);
+	List<Board> selectAdminEtcHelp(Map<String, Object> map);
+	
+	
+}

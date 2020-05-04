@@ -1,0 +1,6 @@
+package site.yolowa.mapper;
+
+
+public interface MainReservationMapper {
+	
+}

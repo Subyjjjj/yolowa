@@ -1,0 +1,88 @@
+package site.yolowa.test.ts;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Properties;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import site.yolowa.dto.Board;
+import site.yolowa.dto.Sns;
+import site.yolowa.service.AdminEtcService;
+import site.yolowa.service.AdminMemberService;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+public class Service {
+	private static final Logger logger=LoggerFactory.getLogger(Service.class);
+	
+	@Autowired
+	AdminMemberService adminMemberService;
+	@Autowired
+	AdminEtcService adminEtcService;
+	
+	
+	
+	@Autowired
+	@Qualifier("visitedsiteResource")
+	ClassPathResource visitedsiteResource;
+	
+	@Autowired
+	@Qualifier("visitedsiteProp")
+	Properties visitedsiteProp;
+	
+	@Autowired
+	@Qualifier("slashYearMonthFormat")
+	SimpleDateFormat slashYearMonthFormat;
+	
+	/*
+	@Test
+	public void service() {
+		
+	}
+	*/
+	
+	@Test
+	public void service() throws IOException {
+		Sns sns = new Sns();
+		System.out.println(sns.getBlog());
+		System.out.println(sns.getFacebook());
+		System.out.println(sns.getInstagram());
+		System.out.println(sns.getTwitter());
+		
+		sns.setFacebook("my facebook");
+		System.out.println(adminEtcService.getAdminSns());
+		System.out.println(adminEtcService.modifySns(sns));
+		
+		/*
+		visitedsiteProp.load(visitedsiteResource.getInputStream());
+		System.out.println(visitedsiteResource.getFile());
+		int count = 0;
+		String now = slashYearMonthFormat.format(System.currentTimeMillis());
+		
+		if(visitedsiteProp.getProperty(now) == null) {
+			count = 1;
+		}else {
+			count = Integer.parseInt(visitedsiteProp.getProperty(now));
+			count++;
+		}
+		
+		visitedsiteProp.setProperty(now, count+"");
+		visitedsiteProp.save(new FileOutputStream(visitedsiteResource.getFile()), "date : " + now);
+		*/
+	}
+	
+	
+	
+}

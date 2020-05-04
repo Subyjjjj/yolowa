@@ -1,0 +1,93 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Panagea - Premium site template for travel agencies, hotels and restaurant listing.">
+    <meta name="author" content="Ansonika">
+    <title>YOLOWA | 여행중이세요? YOLOWA와 함께 숙소 예약 또는 호스팅을 시작해보세요.</title>
+
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="${pageContext.request.contextPath }/img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="${pageContext.request.contextPath }/img/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="${pageContext.request.contextPath }/img/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="${pageContext.request.contextPath }/img/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="${pageContext.request.contextPath }/img/apple-touch-icon-144x144-precomposed.png">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap&subset=korean" rel="stylesheet">
+
+    <!-- BASE CSS -->
+    <link href="${pageContext.request.contextPath }/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/css/style.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath }/css/vendors.css" rel="stylesheet">
+
+    <!-- YOUR CUSTOM CSS -->
+    <link href="${pageContext.request.contextPath }/css/custom.css" rel="stylesheet">
+	
+</head>
+
+<body id="register_bg">
+	
+	<nav id="menu" class="fake_menu"></nav>
+	
+	<div id="preloader">
+		<div data-loader="circle-side"></div>
+	</div>
+	<!-- End Preload -->
+	
+	<div id="login">
+		<aside>
+			<figure>
+				<a href="index.jsp"><img src="${pageContext.request.contextPath }/img/logo_sticky.png" width="155" height="36" data-retina="true" alt="" class="logo_sticky"></a>
+			</figure>
+			<form autocomplete="off" action="register" method="post">
+				<div class="form-group">
+					<label>이름</label>
+					<input class="form-control" type="text" name="name">
+					<i class="ti-user"></i>
+				</div>
+				<div class="form-group">
+					<label>생일</label>
+					<input class="form-control" type="date" name="birthday">
+					<i class="ti-user"></i>
+				</div>
+				<div class="form-group">
+					<label>이메일</label>
+					<input class="form-control" type="email" name="email">
+					<i class="icon_mail_alt"></i>
+				</div>
+				<div class="form-group">
+					<label>비밀번호</label>
+					<input class="form-control" type="password" id="password1" name="password">
+					<i class="icon_lock_alt"></i>
+				</div>
+				<div class="form-group">
+					<label>비밀번호 확인</label>
+					<input class="form-control" type="password" id="password2">
+					<i class="icon_lock_alt"></i>
+				</div>
+				<div id="pass-info" class="clearfix"></div>
+				<button type="submit" class="btn_1 rounded full-width add_top_30">지금 등록!</button>
+				<div class="text-center add_top_10">이미 가입하셨나요? <strong><a href="login.jsp">로그인</a></strong></div>
+			</form>
+			<div class="copy">© 2020 Yolowa</div>
+		</aside>
+	</div>
+	<!-- /login -->
+	
+	<!-- COMMON SCRIPTS -->
+    <script src="${pageContext.request.contextPath }/js/common_scripts.js"></script>
+    <script src="${pageContext.request.contextPath }/js/main.js"></script>
+	<script src="${pageContext.request.contextPath }/assets/validate.js"></script>
+	
+	<!-- SPECIFIC SCRIPTS -->
+	<script src="${pageContext.request.contextPath }/js/pw_strenght.js"></script>
+	
+  
+</body>
+</html>

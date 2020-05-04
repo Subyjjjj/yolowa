@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.yolowa.mapper.MainMemberMapper">
+<insert id="insertMainMember" parameterType="Member">
+	insert into member (member_no, member_email, member_password, member_name, member_birthday, member_mailing, member_join_date, member_state, member_sex, member_host_state)
+	values(member_seq.nextval, #{memberEmail}, #{memberPassword}, #{memberName}, #{memberBirthday}, 0, sysdate,1, 0, 0)	
+</insert>
+
+<update id="updateMainMember" parameterType="Member">
+	update member set member_name=#{memberName} where member_no=#{memberNo}
+</update>
+
+<update id="updateMainNewPasswdMember" parameterType="Member">
+	update member set member_password=#{memberPassword} where member_no=#{memberNo}
+</update>
+
+<!-- 탈퇴한 회원으로 만드는 update문 -->
+<update id="deleteMainMember">
+	update member set member_state=2 where member_no=#{memberNo}
+</update>
+
+<select id="selectMainMember" resultType="Member">
+	select * from member where member_email=#{email}
+</select>
+
+
+</mapper>

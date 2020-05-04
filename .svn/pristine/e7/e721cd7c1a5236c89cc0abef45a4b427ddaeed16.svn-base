@@ -1,0 +1,5 @@
+package site.yolowa.mapper;
+
+public interface MainWishlistMapper {
+
+}

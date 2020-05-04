@@ -1,0 +1,9 @@
+package site.yolowa.mapper;
+
+import site.yolowa.dto.Hosting;
+import site.yolowa.dto.MypageHeaderCount;
+
+public interface MainHostingMypageMapper {
+	int insertHosting(Hosting hosting);
+	MypageHeaderCount selectMypageHeaderCount(int loginMemberNo);
+}

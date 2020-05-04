@@ -1,0 +1,86 @@
+package site.yolowa.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import site.yolowa.dto.AdminCard;
+import site.yolowa.dto.AdminChart;
+import site.yolowa.dto.AdminHostingMemberDetail;
+import site.yolowa.dto.AdminMemberDetail;
+import site.yolowa.dto.AdminMemberTable;
+import site.yolowa.dto.Member;
+import site.yolowa.dto.Range;
+import site.yolowa.mapper.MainMemberMapper;
+import site.yolowa.mapper.AdminMapper;
+
+@Repository
+public class MemberDAO{
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public List<Member>selectAllMember() {
+		return sqlSession.getMapper(AdminMapper.class).selectAllMember();
+	}
+	
+	public List<AdminMemberTable> selectAdminMemberTable(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminMemberTable(map);
+	}
+	
+	public Member selectNoMember(int memberNo) {
+		return sqlSession.getMapper(AdminMapper.class).selectNoMember(memberNo);
+	}
+	
+	public int updateMemberForbiddenDate(Member member) {
+		try {
+			return sqlSession.getMapper(AdminMapper.class).updateMemberForbiddenDate(member);
+		} finally {
+			sqlSession.commit();
+			sqlSession.close();
+		}
+	}
+	
+	public List<AdminChart> selectAdminMemberJoinChart(Range range) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminMemberJoinChart(range);
+	}
+	
+	public List<AdminCard> selectAdminJoinMemberCard(){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminJoinMemberCard();
+	}
+	
+	
+	public List<AdminCard> selectAdminStateMemberCard(){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminStateMemberCard();
+	}
+	
+	public AdminMemberDetail selectAdminMemberDetail(int memberNo){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminMemberDetail(memberNo);
+	}
+	
+	public AdminHostingMemberDetail selectAdminMemberHostingDetail(int memberNo){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminMemberHostingDetail(memberNo);
+	}
+	
+	
+	public int updateMemberMemo(Member member){
+		try {
+			return sqlSession.getMapper(AdminMapper.class).updateMemberMemo(member);
+		} finally {
+			sqlSession.commit();
+			sqlSession.close();
+		}
+	}
+	
+	public Member selectMainMember(String email){
+		return sqlSession.getMapper(MainMemberMapper.class).selectMainMember(email);
+	}
+	
+	
+	public int insertMainMember(Member member){
+		return sqlSession.getMapper(MainMemberMapper.class).insertMainMember(member);
+	}
+	
+}

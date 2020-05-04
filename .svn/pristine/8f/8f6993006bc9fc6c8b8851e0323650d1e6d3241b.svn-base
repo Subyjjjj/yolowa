@@ -1,0 +1,73 @@
+package site.yolowa.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import site.yolowa.dto.Board;
+import site.yolowa.service.MainHelpBoardService;
+
+@Controller
+public class MainHelpBoardController {
+	@Autowired
+	MainHelpBoardService mainHelpBoardService;
+	
+	@RequestMapping(value = "/help", method = RequestMethod.GET)
+	public String HelpBoard(Board board, Model model){
+		
+		return "main/help";
+	}
+	
+	@RequestMapping(value = "/faq", method = RequestMethod.GET)
+	public String HelpBoardFAQ(Board board,Model model){
+		
+		model.addAttribute("faqBoardList", mainHelpBoardService.getHelpBoardList());
+		
+		List<Board> faqBoardList1 = new ArrayList<Board>();
+		List<Board> faqBoardList2 = new ArrayList<Board>();
+		List<Board> faqBoardList3 = new ArrayList<Board>();
+		List<Board> faqBoardList4 = new ArrayList<Board>();
+		List<Board> faqBoardList5 = new ArrayList<Board>();
+		List<Board> faqBoardList6 = new ArrayList<Board>();
+		
+		for(Board faqBoard : mainHelpBoardService.getHelpBoardList()) {
+			if(faqBoard.getBoardCategory()==1) {
+				faqBoardList1.add(faqBoard);
+			} else if(faqBoard.getBoardCategory()==2) {
+				faqBoardList2.add(faqBoard);
+			} else if(faqBoard.getBoardCategory()==3) {
+				faqBoardList3.add(faqBoard);
+			} else if(faqBoard.getBoardCategory()==4) {
+				faqBoardList4.add(faqBoard);
+			} else if(faqBoard.getBoardCategory()==5) {
+				faqBoardList5.add(faqBoard);
+			} else if(faqBoard.getBoardCategory()==6) {
+				faqBoardList6.add(faqBoard);
+			}
+		}
+		 
+		model.addAttribute("faqBoardList1", faqBoardList1);
+		model.addAttribute("faqBoardList2", faqBoardList2);
+		model.addAttribute("faqBoardList3", faqBoardList3);
+		model.addAttribute("faqBoardList4", faqBoardList4);
+		model.addAttribute("faqBoardList5", faqBoardList5);
+		model.addAttribute("faqBoardList6", faqBoardList5);
+		
+		return "main/faq";
+	}
+	
+	@RequestMapping(value = "/help", method = RequestMethod.POST)
+	public String HelpBoardSearch(Board board, Model model, String searchKeyWord){
+			
+			
+		return "main/faq";
+	}
+	
+	
+}

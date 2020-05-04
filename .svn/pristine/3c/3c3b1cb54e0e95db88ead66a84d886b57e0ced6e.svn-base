@@ -1,0 +1,172 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 상용버전, 속도와 용량이 최적화됨. -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+<%-- member detail component--%>
+<div id="memberDetailComponent" class="fullcomponent" style="display:none;">
+	<div>
+		<div class="exitBtnBox" style="margin: 30px; height: 10px;">
+			<button type="button" onclick="closeMemberDetailComponent()" style=""><p style="font-size: 30px">x</p></button>
+		</div>
+		<div class="title">
+			<h3>회원 상세보기</h3>
+			<h5>
+				<span>회원번호 : </span>
+				<span>{{no}} {{state}} (~9999~12-30 / 영구)])</span>
+			</h5>
+		</div>
+		<div class="content">
+			<div class="row">
+				<%-- 회원프로필에 관련된 부분 --%>
+				<div class="col">
+					<div class="title">
+						<h4>프로필</h4>
+					</div>
+					<%-- 프로필 이미지 --%>
+					<div class="borderBox">
+						<div style="height: 515px;">
+							<div style="border:5px solid lightblue; margin-bottom:30px; padding: 10px 50px;">
+								<img src="${pageContext.request.contextPath }/img/nonprofile.png" width="100%" height="350px">
+							</div>
+							<%-- 프로필 소개 --%>
+							<p>
+								<span>소개 : </span>
+								<span>{{profile}}</span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<%-- 회원 상세정보에 관한 부분 --%>
+				<div class="col">
+					<div class="title">
+						<h4>요약</h4>
+					</div>
+					<div class="borderBox">
+						<div>
+							<p class="email">이메일 : {{email}}</p>
+							<p class="name">
+								<span>이름 : </span>
+								<span>{{name}}</span>
+								<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								<span>성별 : </span>
+								<span>{{sex}}</span>
+							</p>
+							<p class="birthday">
+								<span>생년월일 : </span>
+								<span>{{birthday}}</span>
+							</p>
+							<p class="phone">
+								<span>전화번호 : </span> 
+								<span>{{phone}}</span>
+							</p>
+							<p class="address">
+								<span>주소 : </span>
+								<span>{{address}}</span>
+							</p>
+							<p class="joinDate">
+								<span>회원가입일 : </span>
+								<span>{{joinDate}}</span>
+							</p>
+							<p class="lastLogin">
+								<span>마지막로그인 : </span>
+								<span>{{lastLogin}}</span>
+							</p>
+							<p class="status">
+								<span>회원 상태 : </span> 
+								<span>{{state}}</span>
+							</p>
+							<p class="pauseCount">
+								<span>정지횟수 :</span> 
+								<span>3회</span> 
+								<a href="#">[ 초기화 ]</a>
+								<a href="#">[ + 1 ]</a>
+								<a href="#">[ - 1 ]</a>
+							</p>
+						</div>
+					</div>
+					<div class="title">
+						<h4>호스팅</h4>
+					</div>
+					<div class="borderBox">
+						<div style="height: 28px;">
+							<span>갯수 : {{hostingCount}}개 <a href="#">&lt;&lt; 호스팅 바로가기 &gt;&gt;</a></span>
+						</div>
+					</div>
+				</div>
+				<%-- 회원의 여행에 관한 부분 --%>
+				<div class="col">
+					<div class="title">
+						<h4>여행</h4>
+					</div>
+					<div class="borderBox">
+						<div>
+							다녀온 여행지 (5개)
+						</div>
+						<div>
+							<select name="" size="6" style="width: 100%; height: 100px;">
+								<option>호스팅 이름이 들어가는 칸입니다.(호스팅번호) / 2011.01.01~2011.01.02 .. .. .. .. .. .. .. .. .. .. ..</option>
+							</select>
+						</div>
+						<div>
+							<p style="text-align: right;">총여행 경비 : {{reservationTotalPrice}}</p>
+						</div>
+					</div>
+					
+					<div class="title">
+						<h4>관리자 메모</h4>
+					</div>
+					<div class="borderBox">
+						<div>
+							<textarea rows="" cols="" style="resize:none; width: 100%; height: 170px;" v-model="memo"></textarea>
+						</div>
+						<div>
+							<select id="selectPause" class="custom-select mr-sm-2">
+								<option>1일 정지</option>
+								<option>7일 정지</option>
+								<option>10일 정지</option>
+								<option>30일 정지</option>
+								<option>영구 정지</option>
+							</select>
+							<button type="button" class="btn btn-primary">정지</button>
+							<button type="button" class="btn btn-primary" style="float:right;">정지 취소</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var app = new Vue({
+	  el: '#memberDetailComponent',
+	  data: {
+	    no: "0001",
+	    email: "123@naver.com",
+	    name: "홍길동",
+	    birthday: "1991-01-01 00:00:00",
+	    address: "서울시 강동구 명일동 12345678901234567890",
+	    sex: "남",
+	    //상태에 따라 다른 뷰를 보여줘야함. 실제 데이터는 1-2 이렇게 옴
+	    state: "정상",
+	    image: "",
+	    profile: "안녕하세요.",
+	    phone: "010-1234-5678",
+	    joinDate: "2020-04-11",
+	    lastLogin: "2020-04-11 00:00:00",
+	    memo : "관리자가 남긴 메모",
+	    hostingCount: "5",
+	    reservationRecord: [
+	    	{hostingNo: "", hostingName: "" checkIn: "", checkOut: ""},
+	    ],
+	    reservationTotalPrice: "10000000000"
+	  },
+	  method{
+		  
+	  }
+	})
+</script>

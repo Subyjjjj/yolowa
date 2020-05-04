@@ -1,0 +1,169 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
+
+출처: https://thefif19wlsvy.tistory.com/61 [FIF's 코딩팩토리]
+	
+	<div id="page" class="theia-exception">
+	
+	<main>
+		<section class="hero_in general">
+			<div class="wrapper">
+				<div class="container">
+					<h1 class="fadeInUp"><span></span>Faq</h1>
+				</div>
+			</div>
+		</section>
+		<!--/hero_in-->
+
+		<div class="container margin_60_35">
+			<div class="row">
+				<aside class="col-lg-3" id="sidebar">
+						<div class="box_style_cat" id="faq_box">
+							<ul id="cat_nav">
+								<li><a href="#payment" class="active"><i class="icon_document_alt"></i>결제 도움말</a></li>
+								<li><a href="#tips"><i class="icon_document_alt"></i>호스팅 도움말</a></li>
+								<li><a href="#reccomendations"><i class="icon_document_alt"></i>예약 도움말</a></li>
+								<li><a href="#terms"><i class="icon_document_alt"></i>이용 약관</a></li>
+								<li><a href="#booking"><i class="icon_document_alt"></i>이용 주의사항</a></li>
+							</ul>
+						</div>
+						<!--/sticky -->
+				</aside>
+				<!--/aside -->
+				
+				<div class="col-lg-9" id="faq">
+					<h4 class="nomargin_top">결제 도움말</h4>
+					<div role="tablist" class="add_bottom_45 accordion_2" id="payment">
+					 
+					 
+					<c:forEach items="${faqBoardList1 }" var="faqBoard">
+						<div class="card">
+							<div class="card-header" role="tab">
+								<h5 class="mb-0">
+									<a class="collapsed" data-toggle="collapse" href="#collapseOne_payment${faqBoard.boardNo }" aria-expanded="false">
+									<i class="indicator ti-plus"></i>${faqBoard.boardTitle}</a>
+								</h5>
+							</div>
+							<div id="collapseOne_payment${faqBoard.boardNo }" class="collapse" role="tabpanel" data-parent="#payment">
+								<div class="card-body">
+									<p>내용 : ${faqBoard.boardContent }</p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+					</div>
+					<!-- /accordion payment -->
+					
+					<h4 class="nomargin_top">호스팅 도움말</h4>
+					<div role="tablist" class="add_bottom_45 accordion_2" id="tips">
+						
+					<c:forEach items="${faqBoardList2 }" var="faqBoard">
+						<div class="card">
+							<div class="card-header" role="tab">
+								<h5 class="mb-0">
+									<a class="collapsed" data-toggle="collapse" href="#collapseOne_payment${faqBoard.boardNo }" aria-expanded="false">
+									<i class="indicator ti-plus"></i>${faqBoard.boardTitle}</a>
+								</h5>
+							</div>
+							<div id="collapseOne_payment${faqBoard.boardNo }" class="collapse" role="tabpanel" data-parent="#payment">
+								<div class="card-body">
+									<p>내용 : ${faqBoard.boardContent }</p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+					</div>
+					<!-- /accordion suggestions -->
+					
+					<h4 class="nomargin_top">예약 도움말</h4>
+					<div role="tablist" class="add_bottom_45 accordion_2" id="reccomendations">
+					
+					<c:forEach items="${faqBoardList3 }" var="faqBoard">
+						<div class="card">
+							<div class="card-header" role="tab">
+								<h5 class="mb-0">
+									<a class="collapsed" data-toggle="collapse" href="#collapseOne_payment${faqBoard.boardNo }" aria-expanded="false">
+									<i class="indicator ti-plus"></i>${faqBoard.boardTitle}</a>
+								</h5>
+							</div>
+							<div id="collapseOne_payment${faqBoard.boardNo }" class="collapse" role="tabpanel" data-parent="#payment">
+								<div class="card-body">
+									<p>내용 : ${faqBoard.boardContent }</p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+						
+					</div>
+					<!-- /accordion Reccomendations -->
+					
+					<h4 class="nomargin_top">이용 약관</h4>
+					<div role="tablist" class="add_bottom_45 accordion_2" id="terms">
+						
+					<c:forEach items="${faqBoardList4 }" var="faqBoard">
+						<div class="card">
+							<div class="card-header" role="tab">
+								<h5 class="mb-0">
+									<a class="collapsed" data-toggle="collapse" href="#collapseOne_payment${faqBoard.boardNo }" aria-expanded="false">
+									<i class="indicator ti-plus"></i>${faqBoard.boardTitle}</a>
+								</h5>
+							</div>
+							<div id="collapseOne_payment${faqBoard.boardNo }" class="collapse" role="tabpanel" data-parent="#payment">
+								<div class="card-body">
+									<p>내용 : ${faqBoard.boardContent }</p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+						
+					</div>
+					<!-- /accordion Terms -->
+					
+					<h4 class="nomargin_top">이용 주의사항</h4>
+					<div role="tablist" class="add_bottom_45 accordion_2" id="booking">
+						
+					<c:forEach items="${faqBoardList5 }" var="faqBoard">
+						<div class="card">
+							<div class="card-header" role="tab">
+								<h5 class="mb-0">
+									<a class="collapsed" data-toggle="collapse" href="#collapseOne_payment${faqBoard.boardNo }" aria-expanded="false">
+									<i class="indicator ti-plus"></i>${faqBoard.boardTitle}</a>
+								</h5>
+							</div>
+							<div id="collapseOne_payment${faqBoard.boardNo }" class="collapse" role="tabpanel" data-parent="#payment">
+								<div class="card-body">
+									<p>내용 : ${faqBoard.boardContent }</p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+						
+					</div>
+					<!-- /accordion Booking -->
+				</div>
+				<!-- /col -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!--/container-->
+	</main>
+	<!--/main-->
+	
+	</div>
+	<!-- page -->
+	
+	<div id="toTop"></div><!-- Back to top button -->
+	
+	<jsp:include page="login-popup.jsp"></jsp:include>
+	
+	<!-- COMMON SCRIPTS -->
+    <script src="${pageContext.request.contextPath }/js/common_scripts.js"></script>
+    <script src="${pageContext.request.contextPath }/js/main.js"></script>
+	<script src="${pageContext.request.contextPath }/assets/validate.js"></script>
+	
+	

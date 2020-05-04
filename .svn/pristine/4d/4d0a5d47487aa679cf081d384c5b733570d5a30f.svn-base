@@ -1,0 +1,118 @@
+package site.yolowa.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import site.yolowa.dto.Hosting;
+import site.yolowa.dto.Member;
+import site.yolowa.dto.MypageHeaderCount;
+import site.yolowa.service.MypageHostingService;
+
+//마이페이지 호스팅 관련 서비스 컨트롤러
+
+@Controller
+public class MypageServiceController {
+	//숙소추가
+	@Autowired
+	private MypageHostingService mainHostingMypageService;
+	
+	//호스팅 등록 get 접근
+	@RequestMapping(value = "/mypage/addlisting", method = RequestMethod.GET)
+	public String addListing(HttpSession session) {
+		//로그인 인증 처리
+		if (session.getAttribute("loginMember") == null) {
+			return "main/404";
+		}
+		
+		return "mypage/add-listing";
+	}
+	
+	//호스팅 등록
+	@Transactional
+	@RequestMapping(value = "/mypage/addlisting", method = RequestMethod.POST)
+	public String addListing(@ModelAttribute Hosting hosting, HttpSession session) {
+		//로그인 인증 처리
+		if (session.getAttribute("loginMember") == null) {
+			return "main/404";
+		}
+		
+		try {
+			mainHostingMypageService.addHosting(hosting);
+		} catch (RuntimeException e) {
+			System.out.println("error = " + e);
+			System.out.println(hosting.toString());
+			return "mypage/add-listing";
+		}
+		
+		return "mypage/listings";
+	}
+	
+	//예약관리
+	@RequestMapping(value = "/mypage/bookings", method = RequestMethod.GET)
+	public String bookings() {
+		return "mypage/bookings";
+	}
+	
+	//호스팅 대쉬보드
+	@RequestMapping(value = "/mypage/dashboard", method = RequestMethod.GET)
+	public String dashBoard(HttpSession session, Model model) {
+		Member member = (Member)session.getAttribute("loginMember");
+		model.addAttribute("dashboardCount", mainHostingMypageService.getMypageHeaderCount(member.getMemberNo()));
+		return "mypage/dashboard";
+	}
+	
+	//네비 메세지 카운트
+	@ModelAttribute("newMessage")
+	public MypageHeaderCount newMessage(HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			return null;
+		}
+		Member member = (Member)session.getAttribute("loginMember");
+		return mainHostingMypageService.getMypageHeaderCount(member.getMemberNo());
+	}
+	
+	//숙소관리
+	@RequestMapping(value = "/mypage/listings", method = RequestMethod.GET)
+	public String listings() {
+		return "mypage/listings";
+	}
+	
+	//북마크
+	@RequestMapping(value = "/mypage/bookmarks", method = RequestMethod.GET)
+	public String bookmarks() {
+		return "mypage/bookmarks";
+	}
+	
+	@RequestMapping(value = "bookmarkList", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> bookmarkList(@RequestParam(defaultValue = "1") int pageNum) {
+		
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		return returnMap;
+	}
+	
+	@RequestMapping(value = "/invoice", method = RequestMethod.GET)
+	public String invoice() {
+		return "mypage/invoice";
+	}
+	
+	//마이페이지 메세지 관리
+	@RequestMapping(value = "/mypage/messages", method = RequestMethod.GET)
+	public String messages() {
+		return "mypage/messages";
+	}
+	
+}

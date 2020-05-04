@@ -1,0 +1,38 @@
+package site.yolowa.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import site.yolowa.service.WishlistService;
+
+@Controller
+public class MainWishlistController {
+	
+	@Autowired
+	private WishlistService wishlistService;
+	
+	@RequestMapping(value = "/wishlist", method = RequestMethod.GET)
+	public String wishlist() {
+		
+		return "main/wishlist";
+	}
+	
+	/*
+	 * @RequestMapping(value = "/wishlist", method = RequestMethod.POST) public
+	 * String wishlist(@RequestParam Map<String, Object>map, Model model) {
+	 * 
+	 * model.addAttribute("map", map);
+	 * 
+	 * wishlistService.addWishlist(map); return "main/wishlist";
+	 * 
+	 * }
+	 * 
+	 * @RequestMapping(value = "/wishlist", metho) public String
+	 * wishlist(@RequestParam Map<String, Object>map, Model model) {
+	 * 
+	 * }
+	 */
+
+}

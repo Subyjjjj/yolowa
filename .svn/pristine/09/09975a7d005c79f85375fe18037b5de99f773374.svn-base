@@ -1,0 +1,40 @@
+package site.yolowa.controller;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class AdminEtcController {
+	
+	@RequestMapping(value = "/admin/etc/advertise", method = RequestMethod.GET)
+	public String adminEtcAdvertise() {
+		
+		return "admin/etc/advertise";
+	}
+	
+	@RequestMapping(value = "/admin/etc/board", method = RequestMethod.GET)
+	public String adminEtcBoard() {
+		
+		return "admin/etc/board";
+	}
+	
+	@RequestMapping(value = "/admin/etc/help", method = RequestMethod.GET)
+	public String adminEtcHelp() {
+		
+		return "admin/etc/help";
+	}
+	
+	@RequestMapping(value = "/admin/etc/sns", method = RequestMethod.GET)
+	public String adminEtcSns() {
+		
+		return "admin/etc/sns";
+	}
+	
+	@RequestMapping(value = "/admin/etc/terms", method = RequestMethod.GET)
+	public String adminEtcTerms() {
+		
+		return "admin/etc/terms";
+	}
+}

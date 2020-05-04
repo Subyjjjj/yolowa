@@ -1,0 +1,56 @@
+package site.yolowa.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import site.yolowa.dao.HostingDAO;
+import site.yolowa.dao.MemberDAO;
+import site.yolowa.dao.MessageDAO;
+import site.yolowa.dto.AdminHostingTable;
+import site.yolowa.dto.AdminMemberTable;
+import site.yolowa.dto.Message;
+
+@Service
+public class AdminMemberService {
+	@Autowired
+	private MemberDAO memberDao;
+	@Autowired
+	private HostingDAO hostingDao;
+	@Autowired
+	private MessageDAO messageDao;
+	
+	
+	public List<AdminMemberTable> getAdminMemberTable(Map<String, Object> map) {
+		return memberDao.selectAdminMemberTable(map);
+	}
+	
+	public List<AdminHostingTable> getAdminHostingTable(Map<String, Object> map) {
+		return hostingDao.selectAdminHostingTable(map);
+	}
+	
+	public List<Message> getAdminMessageTable(Map<String, Object> map) {
+		return messageDao.selectAdminMessageTable(map);
+	}
+	
+	public int addAdminMessage(Message message) {
+		return messageDao.insertAdminMessage(message);
+	}
+	
+	public int modifyAdminMessageState(int messageNo) {
+		return messageDao.updateMessageState(messageNo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

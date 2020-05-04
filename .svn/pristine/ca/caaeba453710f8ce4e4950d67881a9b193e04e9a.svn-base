@@ -1,0 +1,23 @@
+package site.yolowa.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import site.yolowa.dto.Board;
+import site.yolowa.dto.MainReview;
+import site.yolowa.dto.MainReviewStarCount;
+import site.yolowa.dto.Review;
+
+public interface ReviewDAO {
+	int updateReviewStateStop(Review review);
+	int updateReviewStatePost(Review review);
+	List<Review> selectReview();
+	Review selectReviewNo(int reviewNo);
+	
+	int insertReviewDtail(Review review);
+	List<MainReview> selectReviewDetailList(Map<String, Object> map);
+	MainReviewStarCount selectReviewStarCount(int hostingNo);
+	
+	//게시판 리뷰 작성 메소드
+	int insertCommentReview(Review review);
+}

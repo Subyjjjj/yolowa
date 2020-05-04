@@ -1,0 +1,64 @@
+package site.yolowa.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import site.yolowa.dto.AdminCard;
+import site.yolowa.dto.AdminChart;
+import site.yolowa.dto.AdminHostingReservationDetail;
+import site.yolowa.dto.AdminHostingTable;
+import site.yolowa.dto.MainHostingSearch;
+import site.yolowa.dto.MainHostingSearchCounting;
+import site.yolowa.dto.Range;
+import site.yolowa.mapper.AdminMapper;
+import site.yolowa.mapper.MainHostingMapper;
+
+@Repository
+public class HostingDAO{
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public List<AdminHostingTable> selectAdminHostingTable(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminHostingTable(map);
+	}
+	
+	public List<AdminChart> selectAdminHostingChart(Range range) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminHostingChart(range);
+	}
+	
+	public List<AdminCard> selectAdminApplyHostingCard(){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminApplyHostingCard();
+	}
+	
+	public List<AdminCard> selectAdminStateHostingCard(){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminStateHostingCard();
+	}
+	
+	public AdminHostingReservationDetail selectAdminHostingDetail(int hostingNo){
+		return sqlSession.getMapper(AdminMapper.class).selectAdminHostingDetail(hostingNo);
+	}
+	
+	//main hosting DAO
+	//index 페이지 최근 등록 디스플레이
+	public List<MainHostingSearch> HostingSearchIndexLately() {
+		return sqlSession.getMapper(MainHostingMapper.class).HostingSearchIndexLately();
+	}
+	
+	//index 페이지 지역 유명 호스트 디스플레이
+	public List<MainHostingSearch> HostingSearchFamous() {
+		return sqlSession.getMapper(MainHostingMapper.class).HostingSearchFamous();
+	}
+	
+	//index 페이지 전국 유명 호스트 디스플레이
+	public List<MainHostingSearch> HostingSearchSuperhost() {
+		return sqlSession.getMapper(MainHostingMapper.class).HostingSearchSuperhost();
+	}
+	
+	public MainHostingSearchCounting HostingSearchCounting() {
+		return sqlSession.getMapper(MainHostingMapper.class).HostingSearchCounting();
+	}
+}

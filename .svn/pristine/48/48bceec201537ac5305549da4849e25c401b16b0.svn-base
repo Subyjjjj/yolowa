@@ -1,0 +1,231 @@
+package site.yolowa.controller;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import site.yolowa.dto.Range;
+import site.yolowa.service.AdminService;
+
+@Controller
+public class AdminMemberController {
+	private Logger logger = LoggerFactory.getLogger(AdminMemberController.class);
+	
+	@Autowired
+	private AdminService adminService;
+	
+	@RequestMapping(value = "/admin/member/member", method = RequestMethod.GET)
+	public String adminMemberMember(@RequestParam Map<String, Object> filter,Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Range> birthdays = new ArrayList<Range>();
+		List<Range> lastLogins = new ArrayList<Range>();
+		List<Range> joinDates = new ArrayList<Range>();
+		
+		List<Integer> nos = new ArrayList<Integer>();
+		List<String> names = new ArrayList<String>();
+		List<String> emails = new ArrayList<String>();
+		List<String> phones = new ArrayList<String>();
+		List<String> addresses = new ArrayList<String>();
+		
+		List<Integer> hostStates = new ArrayList<Integer>();
+		List<Integer> states = new ArrayList<Integer>();
+		int totalPriceStart = 0;
+		int totalPriceEnd = 999999999;
+		
+		
+		int count = 300;
+		// 받을 필터가 없을 경우
+		if(filter != null && filter.entrySet().size() != 0) {
+			//filter set
+			int rangeCount = (String)filter.get("rangeCount")==""?0:Integer.parseInt((String)filter.get("rangeCount"));
+			int keywordCount = (String)filter.get("keywordCount")==""?0:Integer.parseInt((String)filter.get("keywordCount"));
+			
+			// 범위 검색
+			for(int i=1; i<=rangeCount; i++) {
+				String rangeFormat = (String)filter.get("rangeFormat"+i);
+				// 시작 날짜 조합 yyyy-MM-dd
+				String startDate = (String)filter.get("rangeStartYear"+i) + "-" + (String)filter.get("rangeStartMonth"+i) + "-" + (String)filter.get("rangeStartDay"+i);
+				// 마지막 날짜 조합 yyyy-MM-dd
+				String endDate = (String)filter.get("rangeEndYear"+i) + "-" + (String)filter.get("rangeEndMonth"+i) + "-" + (String)filter.get("rangeEndDay"+i);
+				
+				// test를 위한 포맷 객체 생성
+				 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		         dateFormat.setLenient(false);
+		         try {
+		        	 
+		        	if(startDate.equals("--") || endDate.equals("--")) { 
+		        		startDate = "0001-01-01";
+		        		endDate = "2050-12-31";
+		        	}else {
+		        		dateFormat.parse(startDate);
+						dateFormat.parse(endDate);
+		        	}
+				} catch (ParseException e) {
+					// 날짜 형식이 아닐 경우 예외처리
+				}
+		         
+				// 선택된 필터정보를 리스트에 추가
+		        if(rangeFormat != null) { 
+					switch (rangeFormat) {
+					case "birthDay":
+						birthdays.add(new Range(startDate, endDate));
+						break;
+					case "joinDate":
+						joinDates.add(new Range(startDate, endDate));
+						break;
+					case "lastLogin":
+						lastLogins.add(new Range(startDate, endDate));
+						break;
+					}
+		        }
+			}
+			
+			// 키워드 검색
+			for(int i=1; i<=keywordCount; i++) {
+				String keywordFormat = (String)filter.get("keywordFormat"+i);
+				// 선택된 필터정보를 리스트에 추가
+				if(keywordFormat != null) {
+					switch (keywordFormat) {
+					case "no":
+						// 필터에 0이 들어 올 경우 필터링 하지 않도록 함.
+						int no  = (String)filter.get("keywordValue"+i)==""?0:Integer.parseInt((String)filter.get("keywordValue"+i));
+						if(no != 0)
+							nos.add(no);
+						break;
+					case "email":
+						emails.add((String)filter.get("keywordValue"+i));
+						break;
+					case "name":
+						names.add((String)filter.get("keywordValue"+i));
+						break;
+					case "phone":
+						phones.add((String)filter.get("keywordValue"+i));
+						break;
+					case "address":
+						addresses.add((String)filter.get("keywordValue"+i));
+						break;
+					}
+				}
+			}
+			
+			// 호스트 상태 필터 추가
+			if((String)filter.get("host") != null){
+				//  
+				hostStates.add(((String)filter.get("host")).equals("")?10:Integer.parseInt((String)filter.get("host")));
+			}
+			if((String)filter.get("superHost") != null){
+				//  
+				hostStates.add(((String)filter.get("superHost")).equals("")?10:Integer.parseInt((String)filter.get("superHost")));
+			}
+			if((String)filter.get("guest") != null){
+				//  
+				hostStates.add(((String)filter	.get("guest")).equals("")?10:Integer.parseInt((String)filter.get("guest")));
+			}
+			
+			// 상태 필터 추가
+			if((String)filter.get("active") != null){
+				//  
+				states.add(((String)filter.get("active")).equals("")?10:Integer.parseInt((String)filter.get("active")));
+			}
+			if((String)filter.get("inactive") != null){
+				//  
+				states.add(((String)filter.get("inactive")).equals("")?10:Integer.parseInt((String)filter.get("inactive")));
+			}
+			if((String)filter.get("pause") != null){
+				//  
+				states.add(((String)filter.get("pause")).equals("")?10:Integer.parseInt((String)filter.get("pause")));
+			}
+			
+			// 금액 필터 추가
+			totalPriceStart = (String)filter.get("totalPriceStart")==""?0:Integer.parseInt((String)filter.get("totalPriceStart"));
+			totalPriceEnd = (String)filter.get("totalPriceEnd")==""?999999999:Integer.parseInt((String)filter.get("totalPriceEnd"));
+			
+			// 카운트
+			count = Integer.parseInt((String)filter.get("searchRow"));
+		}
+		
+		
+		map.put("birthdays", birthdays);
+		map.put("lastLogins", lastLogins);
+		map.put("joinDates", joinDates);
+		
+		map.put("nos", nos);
+		map.put("names", names);
+		map.put("emails", emails);
+		map.put("phones", phones);
+		map.put("addresses", addresses);
+		
+		map.put("hostStates", hostStates);
+		map.put("states", states);
+		map.put("totalPriceStart", totalPriceStart);
+		map.put("totalPriceEnd", totalPriceEnd);
+		
+		map.put("count", count);
+		
+		model.addAttribute("memberTableList", adminService.getAdminMemberTable(map));
+		
+		System.out.println("controller : " + adminService.getAdminMemberTable(map));
+		model.addAttribute("changeDate", new SimpleDateFormat("yyyy년 MM월 dd일 hh:mm:ss").format(new Date()));
+		
+		return "admin/member/member";
+	}
+	
+	@RequestMapping(value = "/admin/member/hosting", method = RequestMethod.GET)
+	public String adminMemberHosting(Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<Range> hostingDates = new ArrayList<Range>();
+		
+		List<String> nos = new ArrayList<String>();
+		List<String> names = new ArrayList<String>();
+		List<String> memberNos = new ArrayList<String>();
+		
+		List<Integer> states = new ArrayList<Integer>();
+		
+		Range usedRange = new Range();
+		Range reservationRange = new Range();
+		
+		int count = 300;
+		
+		//setting
+		hostingDates.add(new Range("2020-03-01", "2020-04-01"));
+		//
+		
+		map.put("hostingDates", hostingDates);
+		
+		map.put("nos", nos);
+		map.put("names", names);
+		map.put("memberNos", memberNos);
+		
+		map.put("states", states);
+		
+		map.put("usedRange", usedRange);
+		map.put("reservationRange", reservationRange);
+		
+		map.put("count", count);
+		/**/
+		model.addAttribute("hostingTable", adminService.getAdminHostingTable(map));
+		model.addAttribute("changeDate", new Date());
+		
+		return "admin/member/hosting";
+	}
+	
+	@RequestMapping(value = "/admin/member/notice", method = RequestMethod.GET)
+	public String adminMemberNotice() {
+		
+		return "admin/member/notice";
+	}
+}

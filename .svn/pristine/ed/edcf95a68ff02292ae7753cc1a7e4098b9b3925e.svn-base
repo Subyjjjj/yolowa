@@ -1,0 +1,39 @@
+package site.yolowa.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import site.yolowa.dao.HostingDAO;
+import site.yolowa.dto.MainHostingSearch;
+import site.yolowa.dto.MainHostingSearchCounting;
+
+@Service
+public class MainHostingServiceImpl implements MainHostingService {
+	
+	@Autowired
+	private HostingDAO hostingDAO;
+	
+	@Override
+	public List<MainHostingSearch> HostingSearchIndexLately() {
+		//System.out.println(hostingDAO.HostingSearchIndexLately().toString());
+		return hostingDAO.HostingSearchIndexLately();
+	}
+
+	@Override
+	public List<MainHostingSearch> HostingSearchFamous() {
+		return hostingDAO.HostingSearchFamous();
+	}
+
+	@Override
+	public List<MainHostingSearch> HostingSearchSuperhost() {
+		return hostingDAO.HostingSearchSuperhost();
+	}
+
+	@Override
+	public MainHostingSearchCounting HostingSearchCounting() {
+		return hostingDAO.HostingSearchCounting();
+	}
+
+}

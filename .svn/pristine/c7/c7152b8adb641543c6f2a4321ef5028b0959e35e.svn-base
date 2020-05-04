@@ -1,0 +1,147 @@
+package site.yolowa.service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import site.yolowa.bean.AdminChartType;
+import site.yolowa.dao.ClaimDAO;
+import site.yolowa.dao.HostingDAO;
+import site.yolowa.dao.MemberDAO;
+import site.yolowa.dao.ReservationDAO;
+import site.yolowa.dto.AdminCard;
+import site.yolowa.dto.AdminChart;
+import site.yolowa.dto.Range;
+
+@Service
+public class AdminHomeService {
+	
+	@Autowired
+	private MemberDAO memberDao;
+	@Autowired
+	private HostingDAO hostingDao;
+	@Autowired
+	private ClaimDAO claimDao;
+	@Autowired
+	private ReservationDAO reservationDao;
+	
+	//yy/MM/dd
+	@Autowired
+	@Qualifier("slashDateFormat")
+	private SimpleDateFormat slashDateFormat;
+	
+	
+	@SuppressWarnings("deprecation")
+	public Map<String, Object> getAdminHomeCard(){
+		Map<String, Object> cards = new HashMap<String, Object>();
+		Date now = new Date();
+		Date previousDay = new Date();
+		previousDay.setDate(previousDay.getDate()-1);
+		
+		//
+		List<AdminCard> joinMemberCardList = memberDao.selectAdminJoinMemberCard();
+		Map<String, Object> joinMemberCard = setCard(joinMemberCardList, "now", slashDateFormat.format(now), "previous", slashDateFormat.format(previousDay));
+		cards.put("joinMemberCard", joinMemberCard);
+		
+		List<AdminCard> stateMemberCardList = memberDao.selectAdminStateMemberCard();
+		Map<String, Object> stateMemberCard = setCard(stateMemberCardList, "guest", "guest", "host", "host");
+		cards.put("stateMemberCard", stateMemberCard);
+		
+		List<AdminCard> applyHostingCardList = hostingDao.selectAdminApplyHostingCard();
+		Map<String, Object> applyHostingCard = setCard(applyHostingCardList, "now", slashDateFormat.format(now), "previous", slashDateFormat.format(previousDay));
+		cards.put("applyHostingCard", applyHostingCard);
+		
+		List<AdminCard> stateHostingCardList = hostingDao.selectAdminStateHostingCard();
+		Map<String, Object> stateHostingCard = setCard(stateHostingCardList, "active", "1", "pause", "0");
+		cards.put("stateHostingCard", stateHostingCard);
+		
+		List<AdminCard> reviewClaimCardList = claimDao.selectAdminReivewClaimCard();
+		Map<String, Object> reviewClaimCard = setCard(reviewClaimCardList, "waiting", "1", "complete", "2");
+		cards.put("reviewClaimCard", reviewClaimCard);
+		
+		List<AdminCard> guestClaimCardList = claimDao.selectAdminToGuestClaimCard();
+		Map<String, Object> guestClaimCard = setCard(guestClaimCardList, "waiting", "1", "complete", "2");
+		cards.put("guestClaimCard", guestClaimCard);
+		
+		List<AdminCard> hostClaimCardList = claimDao.selectAdminToHostClaimCard();
+		Map<String, Object> hostClaimCard = setCard(hostClaimCardList, "waiting", "1", "complete", "2");
+		cards.put("hostClaimCard", hostClaimCard);
+		
+		return cards;
+	}
+	
+	public Map<String, Object> getAdminHomeTable(Range range){
+		reservationDao.selectAdminDashBoardTable(range);
+		
+		return null;
+	}
+	
+	public List<AdminChart> getAdminHomeChart(String type, Range range){
+		List<AdminChart> adminChart = null;
+		switch (type) {
+		case "visit":
+			//회원가입
+			adminChart = memberDao.selectAdminMemberJoinChart(range);
+			break;
+		case "memberjoin":
+			//회원가입
+			adminChart = memberDao.selectAdminMemberJoinChart(range);
+			break;
+		case "hosting":
+			//호스팅 차트
+			adminChart = hostingDao.selectAdminHostingChart(range);
+			break;
+		case "reservation":
+			//거래내역 차트
+			adminChart = reservationDao.selectAdminSalesChart(range);
+			break;
+		case "claim":
+			//신고
+			adminChart = claimDao.selectAdminClaimChart(range);
+			break;
+		}
+		return adminChart;
+	}
+	
+	
+	private Map<String, Object>setCard(List<AdminCard> cardList, String keyOne, String conditionOne, String keyTwo, String conditionTwo) {
+		Map<String, Object> card = new HashMap<String, Object>();
+		card.put(keyOne, 0);
+		card.put(keyTwo, 0);
+		for(AdminCard c : cardList) {
+			if(c.getSeperator().equals(conditionOne)) {
+				card.put(keyOne, c.getValue());
+			}else if(c.getSeperator().equals(conditionTwo)) {
+				card.put(keyTwo, c.getValue());
+			}
+		}
+		return card;
+	}
+	
+	// 키와 조건을 지정하여 카드리스트에서 카드 맵을 만드는 메소드
+	private Map<String, Object>setCard(List<AdminCard> cardList, String keyOne, String conditionOne, String keyTwo, String conditionTwo, String keyThree, String conditionThree) {
+		Map<String, Object> card = new HashMap<String, Object>();
+		card.put(keyOne, 0);
+		card.put(keyTwo, 0);
+		card.put(keyThree, 0);
+		for(AdminCard c : cardList) {
+			if(c.getSeperator().equals(conditionOne)) {
+				card.put(keyOne, c.getValue());
+			}else if(c.getSeperator().equals(conditionTwo)) {
+				card.put(keyTwo, c.getValue());
+			}else if(c.getSeperator().equals(conditionThree)) {
+				card.put(keyThree, c.getValue());
+			}
+		}
+		return card;
+	}
+	
+	
+	
+}

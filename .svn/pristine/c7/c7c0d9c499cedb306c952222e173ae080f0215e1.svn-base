@@ -1,0 +1,26 @@
+package site.yolowa.controller;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import site.yolowa.exception.MemberAdminNotFoundException;
+import site.yolowa.exception.MemberInfoNotFoundException;
+
+@ControllerAdvice
+public class ExceptionController {
+	@ExceptionHandler(MemberAdminNotFoundException.class)
+	 public String memberAdminNotFoundExceptionHandler(MemberAdminNotFoundException memberAdminNotFoundException, Model model) {
+		memberAdminNotFoundException.printStackTrace();
+		model.addAttribute("message", memberAdminNotFoundException.getMessage());
+		return "main/error";
+	 }
+	
+	@ExceptionHandler(MemberInfoNotFoundException.class)
+	public String memberInfoNotFoundExceptionHandler(MemberInfoNotFoundException memberInfoNotFoundException, Model model) {
+		memberInfoNotFoundException.printStackTrace();
+		model.addAttribute("message", memberInfoNotFoundException.getMessage());
+		return "main/error";
+	}
+	 
+}

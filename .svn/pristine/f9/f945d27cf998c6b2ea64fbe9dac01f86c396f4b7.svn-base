@@ -1,0 +1,41 @@
+package site.yolowa.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import site.yolowa.dto.Board;
+import site.yolowa.mapper.AdminMapper;
+
+@Repository
+public class BoardDAOImpl implements BoardDAO{
+	@Autowired
+	public SqlSession sqlSession;
+
+	@Override
+	public List<Board> selectAllBoard(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAllBoard(map);
+	}
+
+	@Override
+	public int insertAdminBoardNotice(Board board) {
+		return sqlSession.getMapper(AdminMapper.class).insertAdminBoardNotice(board);
+	}
+
+	@Override
+	public int updateAdminBoardNotice(Board board) {
+		return sqlSession.getMapper(AdminMapper.class).updateAdminBoardNotice(board);
+	}
+	
+	@Override
+	public List<Board> selectAdminBoardNoticeCategoryTC(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminMapper.class).selectAdminBoardNoticeCategoryTC(map);
+	}
+
+	
+	
+	
+}

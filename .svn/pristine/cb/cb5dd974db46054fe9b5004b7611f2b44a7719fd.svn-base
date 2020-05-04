@@ -1,0 +1,124 @@
+package site.yolowa.service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import site.yolowa.dao.ClaimDAO;
+import site.yolowa.dao.MemberDAO;
+import site.yolowa.dao.ReviewDAO;
+import site.yolowa.dto.AdminClaimReview;
+import site.yolowa.dto.Claim;
+import site.yolowa.dto.Member;
+import site.yolowa.dto.Review;
+
+@Service
+public class AdminClaimService {
+	@Autowired
+	private MemberDAO memberDao;
+	
+	@Autowired
+	private ClaimDAO claimDao;
+	@Autowired
+	private ReviewDAO reviewDao;
+	
+	
+	@Autowired
+	@Qualifier("slashDateFormat")
+	private SimpleDateFormat slashDateFormat;
+	
+	public List<Claim> getAdminClaimUserTable(Map<String, Object> map) {
+		return claimDao.selectAdminClaimUserTable(map);
+	}
+	
+	public List<AdminClaimReview> getAdminClaimReviewTable(Map<String, Object> map){
+		return claimDao.selectAdminClaimReviewTable(map);
+	}
+	
+	// 회원을 전달받아 정지일을 설정하여 반환
+	@SuppressWarnings("deprecation")
+	private String setForbiddenDate(Member member, int plus) {
+		String forbiddenDate = "";
+		if(member.getMemberForbiddenDate() == null) {
+			Date date = new Date(System.currentTimeMillis());
+			date.setDate(date.getDate()+plus);
+			forbiddenDate = slashDateFormat.format(date);
+		} else {
+			//date 객체 생성
+			Date date = new Date();
+			date.setYear(Integer.parseInt(member.getMemberForbiddenDate().substring(0, 4)));
+			date.setMonth(Integer.parseInt(member.getMemberForbiddenDate().substring(5, 7))-1);
+			date.setDate(Integer.parseInt(member.getMemberForbiddenDate().substring(8, 10)));
+			date.setDate(date.getDate()+plus);
+			forbiddenDate = slashDateFormat.format(date);
+		}
+		return forbiddenDate; 
+	}
+	
+	public int modifyClaimMemberState (Claim claim, int plus) {
+		Member member = memberDao.selectNoMember(claim.getClaimSuspectNo());
+		/*
+		if(member == null) throw memberNoSearchException("신고 대상 회원이 존재하지 않습니다.");
+		*/
+		// 처리완료라면
+		if(claim.getClaimState() == 2) {
+			member.setMemberForbiddenDate(setForbiddenDate(member, plus));
+			// 7일 정지
+			memberDao.updateMemberForbiddenDate(member);
+		}
+		return claimDao.updateClaimState(claim);
+	}
+	
+	public int modifyClaimMemberState (List<Claim> claimList, int plus) {
+		int rows = 0;
+		for(Claim claim : claimList) {
+			Member member = memberDao.selectNoMember(claim.getClaimSuspectNo());
+			/*
+			if(member == null) throw memberNoSearchException("신고 대상 회원이 존재하지 않습니다.");
+			*/
+			// 처리완료라면
+			if(claim.getClaimState() == 2) {
+				member.setMemberForbiddenDate(setForbiddenDate(member, plus));
+				// 7일 정지
+				memberDao.updateMemberForbiddenDate(member);
+			}
+			rows += claimDao.updateClaimState(claim);
+		}
+		return rows;
+	}
+	
+	public int modifyClaimReviewState (Claim claim, int plus) {
+		Review review = reviewDao.selectReviewNo(claim.getClaimSuspectReviewNo());
+		/*
+		if(review == null) throw new ReviewNoSearchException("신고 대상 리뷰가 존재하지 않습니다.");
+		*/
+		// 요청이 처리완료라면
+		if(claim.getClaimState() == 2) {
+			// 리뷰 삭제
+			reviewDao.updateReviewState(review);
+		}
+		return claimDao.updateClaimState(claim);
+	}
+	
+	public int modifyClaimReviewState (List<Claim> claimList, int plus) {
+		int rows = 0;
+		for(Claim claim : claimList) {
+			Review review = reviewDao.selectReviewNo(claim.getClaimSuspectReviewNo());
+			/*
+			if(review == null) throw new ReviewNoSearchException("신고 대상 리뷰가 존재하지 않습니다.");
+			*/
+			// 요청이 처리완료라면
+			if(claim.getClaimState() == 2) {
+				// 리뷰 삭제
+				reviewDao.updateReviewState(review);
+			}
+			rows += claimDao.updateClaimState(claim);
+		}
+		return rows;
+	}
+}

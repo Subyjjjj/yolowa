@@ -1,0 +1,24 @@
+package site.yolowa.dao;
+
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import site.yolowa.mapper.AdminMapper;
+
+@Repository
+public class ReviewDAO{
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public int updateReviewState(Map<String, Object> map) {
+		try {
+			return sqlSession.getMapper(AdminMapper.class).updateReviewState(map);
+		} finally {
+			sqlSession.commit();
+			sqlSession.close();
+		}
+	}
+}

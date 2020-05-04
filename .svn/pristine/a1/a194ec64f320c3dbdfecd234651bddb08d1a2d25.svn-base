@@ -1,0 +1,67 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+    <!-- Sign In Popup -->
+	<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+		<div class="small-dialog-header">
+			<h3>로그인</h3>
+		</div>
+		<form action="login" method="post" name="loginForm" id="loginForm">
+			<div class="sign-in-wrapper">
+				<div class="form-group">
+					<label>이메일</label>
+					<input type="email" class="form-control" name="email" id="email">					
+					<i class="icon_mail_alt"></i>
+				</div>
+				<div class="form-group">
+					<label>패스워드</label>
+					<input type="password" class="form-control" name="password" id="password" value="">
+					<span id="errorMsg" name="errorMsg" ></span>
+					<span name="errorMsg"></span>
+					<i class="icon_lock_alt"></i>
+				</div>
+				<div class="clearfix add_bottom_15">
+					<div class="checkboxes float-left">
+						<label class="container_check">자동 로그인
+						  <input type="checkbox">
+						  <span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="float-right mt-1"><a id="forgot" href="javascript:void(0);">비밀번호를 잃으셨나요?</a></div>
+				</div>
+				<div class="text-center"><input type="submit" value="로그인" class="btn_1 full-width" id="loginBtn" name="loginBtn"></div>
+				<div class="text-center">
+					아직 가입하지 않으셨나요? <a href="register">가입하기</a>
+				</div>
+				<div id="forgot_pw">
+					<div class="form-group">
+						<label>하단의 이메일이 맞는지 확인해주세요.</label>
+						<input type="email" class="form-control" name="email_forgot" id="email_forgot">
+						<i class="icon_mail_alt"></i>
+					</div>
+					<p>회원님의 이메일로 새로운 패스워드가 발급됩니다. 이메일을 확인해주세요.</p>
+					<div class="text-center"><input type="submit" value="비밀번호 재발급" class="btn_1"></div>
+				</div>
+			</div>
+		</form>
+		<!--form -->
+	</div>
+	<!-- /Sign In Popup -->
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript">
+	
+	$("#errorMsg").text("");
+	
+	
+	$("#loginBtn").click(function(){
+		if($("#email").val()=="" || $("#password").val()==""){
+			$("#errorMsg").text("이메일 혹은 비밀번호를 다시 확인해주세요");
+			return false;
+		}
+		
+	});
+		
+	
+	</script>
+	

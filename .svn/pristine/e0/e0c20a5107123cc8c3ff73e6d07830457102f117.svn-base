@@ -1,0 +1,181 @@
+package site.yolowa.controller;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import site.yolowa.dto.Member;
+import site.yolowa.service.MainMemberService;
+import site.yolowa.utils.MainEncrypt;
+
+@Controller
+public class MainMemberController {
+		
+	@Autowired
+	private MainMemberService mainMemberService;
+	
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestParam String email,String password, Model model, HttpSession session) {
+				
+		Member member=mainMemberService.selectMember(email);		
+		
+		String inputPass=MainEncrypt.encrypt(password);
+			
+			if(member!=null && member.getMemberPassword().equals(inputPass)) {
+				switch (member.getMemberState()) {
+				case 0: System.out.println("탈퇴회원 로그인 성공");
+						session.setAttribute("loginMember", member);
+					break;
+				
+				case 1: System.out.println("일반회원 로그인 성공");
+						session.setAttribute("loginMember", member);
+					break;
+				
+				case 2: System.out.println("정지회원 로그인 성공");
+						session.setAttribute("loginMember", member);
+					break;
+			
+				case 3: System.out.println("휴면회원 로그인 성공");
+						session.setAttribute("loginMember", member);
+					break;
+				
+				case 9: System.out.println("관리자 로그인 성공");
+						session.setAttribute("loginMember", member);					
+					break;
+				}
+			}
+		
+			if(session.getAttribute("destURI")!=null) {
+				String destURI=(String)session.getAttribute("destURI");
+				session.removeAttribute("destURI");
+				return "redirect:"+destURI;
+			}
+			
+		return "redirect:/";
+	}
+	
+	
+	@RequestMapping(value = "loginSubmit", method = RequestMethod.POST)
+	@ResponseBody
+	public String loginSubmit(@RequestBody Member member) {
+		String inputEmail=member.getMemberEmail();
+		String inputPassword=MainEncrypt.encrypt(member.getMemberPassword());		
+		
+		Member joinMember=mainMemberService.selectMember(inputEmail);
+		
+		if(joinMember==null) {
+			return "noEmail";
+		} else if(!inputPassword.equals(joinMember.getMemberPassword())) {
+			return "noMatch";			
+		} else {
+			return "success";			
+		}		
+	}
+	
+	
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		System.out.println("세션 제거 완료");
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String join() {
+				
+		return "register";
+	}
+	
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String join(@RequestParam String name, String birthday, String email, String password ) {
+		System.out.println("이메일 = "+email);
+		System.out.println("이름 = "+name);
+		System.out.println("생일 = "+birthday);
+		System.out.println("비밀번호 = "+password);
+		
+		Member member=new Member();
+		
+		String inputPass=MainEncrypt.encrypt(password);
+				
+		member.setMemberName(name);
+		member.setMemberBirthday(birthday);
+		member.setMemberEmail(email);
+		member.setMemberPassword(inputPass);
+			
+		mainMemberService.insertMember(member);
+		System.out.println("회원가입 성공");
+		
+		return "main";
+	}
+	
+	
+	@RequestMapping(value = "mypage/user-profile", method = RequestMethod.GET)
+	public String profile(HttpSession session,Model model) {
+		Member member=(Member)session.getAttribute("loginMember");
+		
+		if(member==null) {
+			return "redirect:/";
+		}
+		
+		
+		model.addAttribute("name",member.getMemberName());
+		model.addAttribute("birthday",member.getMemberBirthday());
+		model.addAttribute("email",member.getMemberEmail());		
+		if(member.getMemberPhone()!=null) model.addAttribute("phone",member.getMemberPhone());		
+		model.addAttribute("sex",member.getMemberSex());		
+		model.addAttribute("mailing",member.getMemberMailing());
+		model.addAttribute("profile",member.getMemberProfile());
+		
+	
+		return "mypage/user-profile";
+	}
+	
+	/*
+	 * 
+	 * 이름 name
+		생일 birthday
+		연락처 phone
+		이메일 email
+		성별 sex
+		메일링 mailing
+		소개 profile
+	 */
+	
+	
+	@RequestMapping(value = "user-profile", method = RequestMethod.POST)
+	public String profileSubmit(HttpSession session,Model model, String name, String birthday, String phone, String email, String sex, String mailing, String profile) {
+		Member member=(Member)session.getAttribute("loginMember");
+		
+		if(member==null) {
+			return "redirect:/";
+		}
+		
+		member.setMemberName(name);
+		member.setMemberBirthday(birthday);
+		member.setMemberPhone(phone);
+			
+		if(!member.getMemberEmail().equals(email)) {			
+			member.setMemberEmail(email);
+		}
+		
+		member.setMemberSex(Integer.parseInt(sex));
+		member.setMemberMailing(Integer.parseInt(mailing));
+		member.setMemberProfile(profile);		
+		
+		mainMemberService.updateMember(member);	
+		
+		return "redirect:/user-profile";
+	}
+	
+}
+

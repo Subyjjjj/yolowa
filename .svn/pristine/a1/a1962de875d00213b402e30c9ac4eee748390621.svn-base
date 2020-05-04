@@ -1,0 +1,21 @@
+package site.yolowa.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class AdminHomeController {
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public String adminDashBoard() {
+		
+		
+		return "admin/home/dashboard";
+	}
+	
+	@RequestMapping(value = "/admin/home/dashboard", method = RequestMethod.GET)
+	public String adminHomeDashBoard() {
+		
+		return "admin/home/dashboard";
+	}
+}

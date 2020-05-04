@@ -1,0 +1,35 @@
+package site.yolowa.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import site.yolowa.dto.Review;
+import site.yolowa.mapper.AdminMapper;
+import site.yolowa.mapper.MainHostingMapper;
+
+@Repository
+public class ReviewDAO{
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public int updateReviewStateStop(Review review) {
+		return sqlSession.getMapper(AdminMapper.class).updateReviewStateStop(review);
+	}
+	
+	public int updateReviewStatePost(Review review) {
+		return sqlSession.getMapper(AdminMapper.class).updateReviewStatePost(review);
+	}
+	
+	public List<Review> selectReview() {
+		return sqlSession.getMapper(MainHostingMapper.class).selectReview();
+	}
+	
+	public Review selectReviewNo(int reviewNo) {
+		return sqlSession.getMapper(MainHostingMapper.class).selectReviewNo(reviewNo);
+	}
+	
+}

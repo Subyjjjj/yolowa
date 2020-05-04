@@ -1,0 +1,94 @@
+package site.yolowa.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import site.yolowa.dao.BoardDAO;
+import site.yolowa.dto.Board;
+import site.yolowa.service.MainCommentService;
+import site.yolowa.utils.Pager;
+
+@Controller
+public class MainCommentController {
+	
+	@Autowired
+	private MainCommentService mainCommentService;
+	
+	@RequestMapping(value="/blog", method = RequestMethod.GET)
+	public String board(@RequestParam Map<String, Object> map, Model model) {
+		int pageNum = map.get("pageNum")==null?1:Integer.parseInt((String)map.get("pageNum"));
+		
+		String keyword = (String)map.get("keyword");
+		if(keyword == null || keyword.equals("")) {
+			keyword = "";
+		}
+		
+		int category = (map.get("category")==null || map.get("category")=="")?-1:Integer.parseInt((String)map.get("category"));
+		
+		Map<String, Object> filter = new HashMap<String, Object>();
+		filter.put("keyword", keyword);
+		if(category != -1) {
+			filter.put("inputValue", category);
+		}
+		
+		int totalBoard=mainCommentService.getSelectCommentCount(filter);
+		
+		int pageSize = 4;//페이지에 출력될 게시글의 갯수 저장
+		int blockSize = 5;//페이지 블럭에 출력될 페이지의 갯수 저장
+		
+		Pager pager=new Pager(pageNum, totalBoard, pageSize, blockSize);
+		
+		model.addAttribute("pager", pager);
+		// commentList : List<BoardComment> : 사이즈 : 4
+		
+		filter.put("pageNum", pager.getPageNum());
+		model.addAttribute("commentList", mainCommentService.getSearchCommentList(filter));
+		
+		System.out.println("filter>> " + filter);
+		System.out.println("pager>> " + pager);
+		model.addAttribute("map", map);
+		model.addAttribute("categoryCount", mainCommentService.getCommentCategoryCount(keyword));
+		return "main/blog";
+	}
+	
+	
+	/*
+	public Map<String, Object> boardList(@RequestParam(defaultValue = "1")int pageNum) {
+		
+		//Board 테이블에 저장된 게시글의 갯수를 반환받아 저장
+		//int totalBoard=mainCommentService.getSelectCommentCount();
+		
+		int pageSize=4;
+		int blockSize=5;
+		
+		Pager pager = new Pager(pageNum, totalBoard, pageSize, blockSize);
+		
+		//Service 클래스의 메소드를 호출하기 위해 매개변수에 전달될 Map 객체 생성
+		Map<String, Object> pagerMap=new HashMap<String, Object>();
+		pagerMap.put("startRow", pager.getStartRow());
+		pagerMap.put("endRow", pager.getEndRow());
+		
+		//요청처리 메소드의 반환값으로 사용될 Map 객체 생성
+		//=> 응답결과를 Map 객체의 엔트리(Entry)로 저장하여 반환
+		Map<String, Object> returnMap=new HashMap<String, Object>();
+		//returnMap.put("commentList", mainCommentService.selectCommentList(pagerMap));
+		returnMap.put("pager", pager);
+		
+		return returnMap;
+	}
+	*/
+
+	
+	
+	
+}

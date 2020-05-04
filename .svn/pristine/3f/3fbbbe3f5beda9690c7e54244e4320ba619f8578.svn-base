@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.yolowa.mapper.MainHostingMypageMapper">
+	<insert id="insertHosting">
+		<selectKey resultType="int" keyProperty="hostingNo" order="BEFORE">
+			select hosting_seq.nextval from dual
+		</selectKey>
+		insert into hosting values(#{hostingNo}, #{hostingMemberNo}, #{hostingAddress}, #{hostingName}, sysdate, 
+		#{hostingDesc}, #{hostingImage}, #{hostingCategory}, 1, #{hostingPrice}, #{hostingPrivate}, #{hostingRoom}, #{hostingPerson}, 
+		#{hostingBathroom}, #{hostingBed}, #{hostingAmenities}, #{hostingSafety}, #{hostingFacilities}, #{hostingRule}, #{hostingRuleDetail}, 
+		#{hostingLatitude}, #{hostingLongitude}, 0, #{hostingCardNum})
+	</insert>
+	
+	<!-- 마이 페이지 헤더 숫자 카운팅 -->
+	<select id="selectMypageHeaderCount" resultType="MypageHeaderCount">
+		select 
+		    (select count(wishlist_hosting_no) from wishlist join hosting on wishlist_hosting_no=hosting_no where hosting_member_no=#{loginMemberNo})wishlist_count,
+		    (select count(message_no) from message where message_receiver_no=#{loginMemberNo} and message_state=1)message_count,
+		    (select count(review_no) from review join hosting on review_hosting_no=hosting_no where review_state=1 and hosting_member_no=#{loginMemberNo})review_count,
+		    (select count(reservation_no) from reservation join hosting on reservation_hosting_no=hosting_no where hosting_member_no=#{loginMemberNo} and reservation_state=1)reservation_count
+		from dual
+	</select>
+</mapper>

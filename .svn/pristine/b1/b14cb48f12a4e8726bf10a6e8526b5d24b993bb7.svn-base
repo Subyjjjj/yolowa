@@ -1,0 +1,15 @@
+package site.yolowa.dao;
+
+import java.util.List;
+
+import site.yolowa.dto.Board;
+
+public interface BoardDAO{
+	List<Board> selectAllBoard();
+	int insertAdminBoardNotice(Board board);
+	List<Board> selectAdminBoardNoticeCategoryTC();
+	
+	
+	
+	
+}

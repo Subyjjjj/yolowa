@@ -1,0 +1,53 @@
+package site.yolowa.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import site.yolowa.dao.HostingDAO;
+import site.yolowa.dao.MemberDAO;
+import site.yolowa.dto.AdminHostingMemberDetail;
+import site.yolowa.dto.AdminHostingReservationDetail;
+import site.yolowa.dto.AdminMemberDetail;
+import site.yolowa.dto.Member;
+
+@Service
+public class AdminComponentService {
+	
+	@Autowired
+	private MemberDAO memberDao;
+	
+	@Autowired
+	private HostingDAO hostingDao;
+	
+	
+	public AdminMemberDetail getAdminMemberComponent(int memberNo){
+		return memberDao.selectAdminMemberDetail(memberNo);
+	}
+	
+	public AdminHostingMemberDetail getAdminHostingMemberHComponent(int hostingNo) {
+		return memberDao.selectAdminMemberHostingDetail(memberDao.AdminHostingMemberDetailNo(hostingNo));
+	}
+	
+	public AdminHostingMemberDetail getAdminHostingMemberMComponent(int memberNo) {
+		return memberDao.selectAdminMemberHostingDetail(memberNo);
+	}
+	
+	public AdminHostingReservationDetail getAdminHostingComponent(int hostingNo) {
+		return hostingDao.selectAdminHostingDetail(hostingNo);
+	}
+	
+	public int modifyMemberMemo(Member member) {
+		/* 나중에 트랜젝션 처리
+		if(memberDao.selectNoMember(member.getMemberNo())== null){
+			throw memberNoSearchException("요청하신 회원이 존재하지 않습니다.");
+		}
+		*/
+		
+		return memberDao.updateMemberMemo(member);
+	}
+	
+	public int modifyMemberForbiddenDate(Member member) {
+		return memberDao.updateMemberForbiddenDate(member);
+	}
+	
+}

@@ -1,0 +1,20 @@
+package site.yolowa.dao;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class BoardDAOImpl {
+
+	/*
+	 * private SqlSession sqlsession;
+	 * 
+	 * @Override public List<Board> selectAllBoard() { return
+	 * sqlsession.getMapper(TsMapper.class).selectAllBoard(); }
+	 * 
+	 * @Override public int insertAdminBoardNotice(Board board) { return 0; }
+	 * 
+	 * @Override public List<Board> selectAdminBoardNoticeCategoryTC() { return
+	 * null; }
+	 */
+	
+}

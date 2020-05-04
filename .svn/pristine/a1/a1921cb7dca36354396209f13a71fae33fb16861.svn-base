@@ -1,0 +1,6 @@
+package site.yolowa.service;
+
+public interface MainReservationService {
+
+}
+ 

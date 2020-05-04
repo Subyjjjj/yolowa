@@ -1,0 +1,21 @@
+package site.yolowa.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class MainMessageController {
+	
+	//푸터 contacts 
+	@RequestMapping(value = "/contacts", method = RequestMethod.GET)
+	public String contacts() {
+		return "main/contacts";
+	}
+	
+	//마이페이지 메세지 관리
+	@RequestMapping(value = "/mypage/messages", method = RequestMethod.GET)
+	public String messages() {
+		return "mypage/messages";
+	}
+}

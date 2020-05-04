@@ -1,0 +1,13 @@
+package site.yolowa.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
+@Controller
+@ResponseBody
+public class AdminComponentController {
+//Rest 서비스를 제공하는 컨트롤러
+	
+
+}

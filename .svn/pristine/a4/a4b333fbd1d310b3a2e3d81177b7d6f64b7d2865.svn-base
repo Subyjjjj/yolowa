@@ -1,0 +1,96 @@
+package site.yolowa.service;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+
+import site.yolowa.dao.BoardDAO;
+import site.yolowa.dto.Board;
+import site.yolowa.dto.Sns;
+
+
+@Service
+public class AdminEtcServiceImpl implements AdminEtcService{
+	@Autowired
+	private BoardDAO boardDAO;
+	
+	@Autowired
+	@Qualifier("snsResource")
+	private Resource snsResource;
+	
+	@Autowired
+	@Qualifier("snsProp")
+	private Properties snsProp;
+	
+
+	@Override
+	public List<Board> getAllBoard(Map<String, Object> map) {
+		return boardDAO.selectAllBoard(map);
+	}
+
+	@Override
+	public void addAdminBoardNotice(Board board) {
+		boardDAO.insertAdminBoardNotice(board);
+	}
+
+	@Override
+	public void modifyAdminBoardNotice(Board board) {
+		boardDAO.updateAdminBoardNotice(board);
+	}
+
+	@Override
+	public List<Board> getAdminBoardNoticeCategoryTC(Map<String, Object> map) {
+		return boardDAO.selectAdminBoardNoticeCategoryTC(map);
+	}
+	
+	
+//--------------------------------------------------------------
+	@Override
+	public Sns getAdminSns() throws IOException {
+		Sns sns = new Sns();
+		
+		//¸Ê ¼¼ÆÃ
+		snsProp.load(snsResource.getInputStream());
+		sns.setBlog(snsProp.getProperty("blog"));
+		sns.setTwitter(snsProp.getProperty("twitter"));
+		sns.setFacebook(snsProp.getProperty("facebook"));
+		sns.setInstagram(snsProp.getProperty("instagram"));
+		//
+			
+		return sns;
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean modifySns(Sns sns) throws IOException {
+		snsProp.load(snsResource.getInputStream());
+		if(sns.getBlog() != null) {
+			snsProp.setProperty("blog", sns.getBlog());
+		}
+		if(sns.getTwitter() != null) {
+			snsProp.setProperty("twitter", sns.getTwitter());
+		}
+		if(sns.getFacebook() != null) {
+			snsProp.setProperty("facebook", sns.getFacebook());
+		}
+		if(sns.getInstagram() != null) {
+			snsProp.setProperty("instagram", sns.getInstagram());
+		}
+		
+		try {
+			snsProp.save(new FileOutputStream(snsResource.getFile()), "");
+		}catch (IOException e) {
+			return false; 
+		}
+		return true;
+	}
+	
+}

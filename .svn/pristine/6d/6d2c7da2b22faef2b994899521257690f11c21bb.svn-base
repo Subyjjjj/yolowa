@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">마이페이지</a>
+        </li>
+        <li class="breadcrumb-item active">메세지</li>
+      </ol>
+		<div class="box_general">
+			<div class="header_box">
+				<h2 class="d-inline-block">${loginMember.memberName }님의 메세지함</h2>
+				<div class="filter">
+					<select id="orderby" name="orderby" class="selectbox">
+						<option value="all">전체</option>
+						<option value="message">메세지</option>
+						<option value="notice">알림</option>
+					</select>
+				</div>
+			</div>
+			<div class="list_general">
+				<ul>
+					<li>
+						<span>2 시간 전</span>
+						<figure><img src="${pageContext.request.contextPath }/img/avatar1.jpg" alt=""></figure>
+						<h4>유저 이름 <a href="#"><i class="sendMessageBt">메세지 보내기</i></a> <i class="read">새로온 메세지</i></h4>
+						<p>(메세지 내용) In vim mucius menandri convenire, an brute zril vis. Ancillae delectus necessitatibus no eam, at porro solet veniam mel, ad everti nostrud vim. Eam no menandri pertinacia deterruisset.</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /box_general-->
+		<nav aria-label="...">
+			<ul class="pagination pagination-sm add_bottom_30">
+				<!-- 
+				<li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">이전</a>
+				</li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item">
+					<a class="page-link" href="#">다음</a>
+				</li>
+				 -->
+			</ul>
+		</nav>
+		<!-- /pagination-->
+	  </div>
+	  <!-- /container-fluid-->
+   	</div>
+    <!-- /container-wrapper-->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="${pageContext.request.contextPath }/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath }/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="${pageContext.request.contextPath }/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="${pageContext.request.contextPath }/vendor/chart.js/Chart.min.js"></script>
+    <script src="${pageContext.request.contextPath }/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="${pageContext.request.contextPath }/vendor/datatables/dataTables.bootstrap4.js"></script>
+	<script src="${pageContext.request.contextPath }/vendor/jquery.selectbox-0.2.js"></script>
+	<script src="${pageContext.request.contextPath }/vendor/retina-replace.min.js"></script>
+	<script src="${pageContext.request.contextPath }/vendor/jquery.magnific-popup.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="${pageContext.request.contextPath }/js/admin.js"></script>
+	
+	<script>
+	$("#orderby").change(function() {
+
+		order = $(".sbFocus").attr("rel");
+		
+	});
+	</script>
